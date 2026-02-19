@@ -7,10 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --saffron: #FF6B35;
-      --deep: #1A0A2E;
       --ink: #0D0D1A;
       --cream: #FFF8EF;
       --gold: #F5C518;
@@ -18,7 +16,6 @@
       --card-bg: #13092A;
       --border: rgba(255,255,255,0.08);
     }
-
     body {
       background: var(--ink);
       color: var(--cream);
@@ -26,8 +23,6 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* Decorative background */
     body::before {
       content: '';
       position: fixed;
@@ -46,7 +41,6 @@
       pointer-events: none;
       z-index: 0;
     }
-
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -54,12 +48,7 @@
       position: relative;
       z-index: 1;
     }
-
-    /* Header */
-    header {
-      text-align: center;
-      padding: 3rem 0 2.5rem;
-    }
+    header { text-align: center; padding: 3rem 0 2.5rem; }
     .logo-row {
       display: flex;
       align-items: center;
@@ -109,10 +98,7 @@
       border-radius: 999px;
       font-size: 0.8rem;
       font-weight: 500;
-      letter-spacing: 0.04em;
     }
-
-    /* Language selector */
     .lang-selector {
       display: flex;
       gap: 1rem;
@@ -141,22 +127,11 @@
       color: rgba(255,248,239,0.3);
       transition: color 0.25s;
     }
-    .lang-btn:hover {
-      border-color: rgba(255,107,53,0.4);
-      color: var(--cream);
-    }
-    .lang-btn.active {
-      border-color: var(--saffron);
-      background: rgba(255,107,53,0.1);
-      color: var(--cream);
-    }
-    .lang-btn.active .native-name {
-      color: var(--gold);
-    }
+    .lang-btn:hover { border-color: rgba(255,107,53,0.4); color: var(--cream); }
+    .lang-btn.active { border-color: var(--saffron); background: rgba(255,107,53,0.1); color: var(--cream); }
+    .lang-btn.active .native-name { color: var(--gold); }
     #btn-kn .native-name { font-family: 'Noto Sans Kannada', sans-serif; }
     #btn-te .native-name { font-family: 'Noto Sans Telugu', sans-serif; }
-
-    /* Translation panel */
     .panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -167,7 +142,6 @@
       .panel { grid-template-columns: 1fr; }
       .lang-selector { flex-direction: column; }
     }
-
     .box {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -179,7 +153,6 @@
       transition: border-color 0.3s;
     }
     .box:focus-within { border-color: rgba(255,107,53,0.4); }
-
     .box-label {
       font-size: 0.72rem;
       font-weight: 500;
@@ -187,7 +160,6 @@
       text-transform: uppercase;
       color: rgba(255,248,239,0.4);
     }
-
     textarea {
       background: transparent;
       border: none;
@@ -202,7 +174,6 @@
       min-height: 160px;
     }
     textarea::placeholder { color: rgba(255,248,239,0.2); }
-
     #output-text {
       min-height: 160px;
       line-height: 1.8;
@@ -211,15 +182,17 @@
     }
     #output-text.kannada { font-family: 'Noto Sans Kannada', sans-serif; }
     #output-text.telugu  { font-family: 'Noto Sans Telugu', sans-serif; }
-    #output-text.placeholder-state { color: rgba(255,248,239,0.2); font-style: italic; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; }
-
+    #output-text.placeholder-state {
+      color: rgba(255,248,239,0.2);
+      font-style: italic;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+    }
     .char-count {
       font-size: 0.75rem;
       color: rgba(255,248,239,0.25);
       text-align: right;
     }
-
-    /* Actions */
     .actions {
       display: flex;
       gap: 0.75rem;
@@ -246,12 +219,9 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(255,107,53,0.4);
     }
-    .btn-translate:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn-translate:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-icon {
-      width: 36px; height: 36px;
+      width: 42px; height: 42px;
       background: rgba(255,255,255,0.06);
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -262,20 +232,17 @@
       display: flex; align-items: center; justify-content: center;
     }
     .btn-icon:hover { background: rgba(255,255,255,0.12); color: var(--cream); }
-
-    /* Status */
     .status-bar {
       min-height: 28px;
       text-align: center;
       font-size: 0.82rem;
       color: rgba(255,248,239,0.4);
       padding: 0.25rem;
+      margin-top: 0.25rem;
     }
     .status-bar.loading { color: var(--gold); }
     .status-bar.error   { color: #FF4D6A; }
     .status-bar.success { color: var(--teal); }
-
-    /* Spinner */
     .spinner {
       display: inline-block;
       width: 14px; height: 14px;
@@ -287,11 +254,7 @@
       margin-right: 6px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Examples */
-    .examples {
-      margin-top: 2rem;
-    }
+    .examples { margin-top: 2rem; }
     .examples-title {
       font-size: 0.72rem;
       font-weight: 500;
@@ -300,11 +263,7 @@
       color: rgba(255,248,239,0.3);
       margin-bottom: 0.75rem;
     }
-    .example-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+    .example-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .chip {
       background: rgba(255,255,255,0.04);
       border: 1px solid var(--border);
@@ -314,14 +273,13 @@
       color: rgba(255,248,239,0.55);
       cursor: pointer;
       transition: all 0.2s;
+      user-select: none;
     }
     .chip:hover {
       background: rgba(255,107,53,0.1);
       border-color: rgba(255,107,53,0.4);
       color: var(--cream);
     }
-
-    /* Toast */
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -335,10 +293,9 @@
       font-weight: 500;
       transition: transform 0.3s ease;
       z-index: 100;
+      pointer-events: none;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
-
-    /* Footer */
     footer {
       text-align: center;
       padding: 2rem 0 0;
@@ -356,22 +313,22 @@
       <h1>Bhasha</h1>
       <div class="logo-dot"></div>
     </div>
-    <p class="tagline">English → Indian Language Translator</p>
+    <p class="tagline">English &rarr; Indian Language Translator</p>
     <div class="lang-badge-row">
-      <span class="lang-badge">ಕನ್ನಡ Kannada</span>
-      <span class="lang-badge">తెలుగు Telugu</span>
+      <span class="lang-badge">&#3221;&#3240;&#3277;&#3240;&#3233; Kannada</span>
+      <span class="lang-badge">&#3108;&#3142;&#3122;&#3137;&#3095;&#3137; Telugu</span>
     </div>
   </header>
 
   <!-- Language Selector -->
   <div class="lang-selector">
-    <button class="lang-btn active" id="btn-kn" onclick="selectLang('kn')">
+    <button class="lang-btn active" id="btn-kn">
       <span>Kannada</span>
-      <span class="native-name">ಕನ್ನಡ</span>
+      <span class="native-name">&#3221;&#3240;&#3277;&#3240;&#3233;</span>
     </button>
-    <button class="lang-btn" id="btn-te" onclick="selectLang('te')">
+    <button class="lang-btn" id="btn-te">
       <span>Telugu</span>
-      <span class="native-name">తెలుగు</span>
+      <span class="native-name">&#3108;&#3142;&#3122;&#3137;&#3095;&#3137;</span>
     </button>
   </div>
 
@@ -379,22 +336,22 @@
   <div class="panel">
     <div class="box">
       <span class="box-label">English</span>
-      <textarea id="input-text" placeholder="Type or paste English text here..." oninput="updateCharCount()" maxlength="500"></textarea>
+      <textarea id="input-text" placeholder="Type or paste English text here..." maxlength="500"></textarea>
       <span class="char-count" id="char-count">0 / 500</span>
     </div>
     <div class="box">
-      <span class="box-label" id="output-label">Kannada — ಕನ್ನಡ</span>
-      <div id="output-text" class="kannada placeholder-state">Translation will appear here...</div>
+      <span class="box-label" id="output-label">Kannada</span>
+      <div id="output-text" class="placeholder-state">Translation will appear here...</div>
     </div>
   </div>
 
   <!-- Actions -->
   <div class="actions">
-    <button class="btn-translate" id="translate-btn" onclick="translate()" disabled>
-      ✦ Translate
+    <button class="btn-translate" id="translate-btn" disabled>
+      &#10022; Translate
     </button>
-    <button class="btn-icon" title="Clear all" onclick="clearAll()">✕</button>
-    <button class="btn-icon" title="Copy translation" onclick="copyResult()">⎘</button>
+    <button class="btn-icon" id="clear-btn" title="Clear all">&#10005;</button>
+    <button class="btn-icon" id="copy-btn" title="Copy translation">&#9003;</button>
   </div>
 
   <div class="status-bar" id="status"></div>
@@ -402,14 +359,14 @@
   <!-- Example Phrases -->
   <div class="examples">
     <p class="examples-title">Try an example</p>
-    <div class="example-chips">
-      <span class="chip" onclick="useExample(this)">Hello, how are you?</span>
-      <span class="chip" onclick="useExample(this)">What is your name?</span>
-      <span class="chip" onclick="useExample(this)">I love India</span>
-      <span class="chip" onclick="useExample(this)">Good morning</span>
-      <span class="chip" onclick="useExample(this)">Thank you very much</span>
-      <span class="chip" onclick="useExample(this)">Where is the railway station?</span>
-      <span class="chip" onclick="useExample(this)">Please speak slowly</span>
+    <div class="example-chips" id="chips-container">
+      <span class="chip">Hello, how are you?</span>
+      <span class="chip">What is your name?</span>
+      <span class="chip">I love India</span>
+      <span class="chip">Good morning</span>
+      <span class="chip">Thank you very much</span>
+      <span class="chip">Where is the railway station?</span>
+      <span class="chip">Please speak slowly</span>
     </div>
   </div>
 </div>
@@ -417,150 +374,197 @@
 <div class="toast" id="toast">Copied to clipboard!</div>
 
 <footer>
-  <p>Powered by MyMemory Translation API &nbsp;·&nbsp; MVP v1.0</p>
+  <p>Powered by Google Translate &amp; MyMemory API &nbsp;&middot;&nbsp; MVP v1.0</p>
 </footer>
 
 <script>
-  let selectedLang = 'kn';
+(function () {
+  'use strict';
 
-  const langConfig = {
-    kn: { label: 'Kannada — ಕನ್ನಡ', cls: 'kannada', code: 'kn' },
-    te: { label: 'Telugu — తెలుగు',   cls: 'telugu',  code: 'te' }
+  /* ── Config ─────────────────────────────────────── */
+  var LANGS = {
+    kn: { label: 'Kannada', code: 'kn', cls: 'kannada' },
+    te: { label: 'Telugu',  code: 'te', cls: 'telugu'  }
   };
+  var activeLang = 'kn';
 
-  function selectLang(lang) {
-    selectedLang = lang;
-    document.getElementById('btn-kn').classList.toggle('active', lang === 'kn');
-    document.getElementById('btn-te').classList.toggle('active', lang === 'te');
-    document.getElementById('output-label').textContent = langConfig[lang].label;
-    const out = document.getElementById('output-text');
-    out.className = 'placeholder-state ' + langConfig[lang].cls;
-    out.textContent = 'Translation will appear here...';
-    setStatus('');
+  /* ── DOM refs ───────────────────────────────────── */
+  var inputEl      = document.getElementById('input-text');
+  var outputEl     = document.getElementById('output-text');
+  var outputLabel  = document.getElementById('output-label');
+  var charCountEl  = document.getElementById('char-count');
+  var statusEl     = document.getElementById('status');
+  var translateBtn = document.getElementById('translate-btn');
+  var clearBtn     = document.getElementById('clear-btn');
+  var copyBtn      = document.getElementById('copy-btn');
+  var toastEl      = document.getElementById('toast');
+  var btnKn        = document.getElementById('btn-kn');
+  var btnTe        = document.getElementById('btn-te');
+  var chipsEl      = document.getElementById('chips-container');
+
+  /* ── Language switch ────────────────────────────── */
+  function setLang(lang) {
+    activeLang = lang;
+    btnKn.classList.toggle('active', lang === 'kn');
+    btnTe.classList.toggle('active', lang === 'te');
+    outputLabel.textContent = LANGS[lang].label;
+    showPlaceholder();
+    showStatus('', '');
   }
+  btnKn.addEventListener('click', function () { setLang('kn'); });
+  btnTe.addEventListener('click', function () { setLang('te'); });
 
-  function updateCharCount() {
-    const txt = document.getElementById('input-text').value;
-    document.getElementById('char-count').textContent = txt.length + ' / 500';
-    document.getElementById('translate-btn').disabled = txt.trim().length === 0;
-  }
+  /* ── Input counter ──────────────────────────────── */
+  inputEl.addEventListener('input', function () {
+    charCountEl.textContent = inputEl.value.length + ' / 500';
+    translateBtn.disabled = inputEl.value.trim() === '';
+  });
 
-  function useExample(el) {
-    document.getElementById('input-text').value = el.textContent;
-    updateCharCount();
-    document.getElementById('input-text').focus();
-  }
+  /* ── Example chips (event delegation) ──────────── */
+  chipsEl.addEventListener('click', function (evt) {
+    var chip = evt.target;
+    if (!chip.classList.contains('chip')) return;
+    inputEl.value = chip.textContent;
+    charCountEl.textContent = inputEl.value.length + ' / 500';
+    translateBtn.disabled = false;
+    inputEl.focus();
+  });
 
-  function clearAll() {
-    document.getElementById('input-text').value = '';
-    updateCharCount();
-    const out = document.getElementById('output-text');
-    out.className = 'placeholder-state ' + langConfig[selectedLang].cls;
-    out.textContent = 'Translation will appear here...';
-    setStatus('');
-  }
+  /* ── Clear ──────────────────────────────────────── */
+  clearBtn.addEventListener('click', function () {
+    inputEl.value = '';
+    charCountEl.textContent = '0 / 500';
+    translateBtn.disabled = true;
+    showPlaceholder();
+    showStatus('', '');
+  });
 
-  async function translateWithMyMemory(text, langCode) {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${langCode}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('MyMemory network error');
-    const data = await res.json();
-    if (data.responseStatus === 200 && data.responseData?.translatedText) {
-      return data.responseData.translatedText;
+  /* ── Copy ───────────────────────────────────────── */
+  copyBtn.addEventListener('click', function () {
+    var txt = outputEl.textContent || '';
+    if (!txt || outputEl.classList.contains('placeholder-state')) return;
+    navigator.clipboard.writeText(txt).then(function () {
+      toastEl.classList.add('show');
+      setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+    }).catch(function () {
+      showStatus('Could not copy — select text and copy manually.', 'error');
+    });
+  });
+
+  /* ── Translate button ───────────────────────────── */
+  translateBtn.addEventListener('click', runTranslation);
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !translateBtn.disabled) {
+      runTranslation();
     }
-    throw new Error(data.responseMessage || 'MyMemory failed');
-  }
+  });
 
-  async function translateWithGoogleProxy(text, langCode) {
-    // Uses a public CORS proxy to access Google Translate
-    const gtUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${langCode}&dt=t&q=${encodeURIComponent(text)}`;
-    const res = await fetch(gtUrl);
-    if (!res.ok) throw new Error('Google Translate network error');
-    const data = await res.json();
-    if (data && data[0]) {
-      return data[0].map(item => item[0]).filter(Boolean).join('');
-    }
-    throw new Error('Google Translate parse error');
-  }
-
-  async function translate() {
-    const text = document.getElementById('input-text').value.trim();
+  /* ── Main translation flow ──────────────────────── */
+  function runTranslation() {
+    var text = inputEl.value.trim();
     if (!text) return;
 
-    const btn = document.getElementById('translate-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Translating...';
-    setStatus('<span class="spinner"></span> Connecting to translation service...', 'loading');
+    setBusy(true);
+    showStatus('<span class="spinner"></span> Translating...', 'loading');
+    outputEl.className = '';
+    outputEl.textContent = '';
 
-    const out = document.getElementById('output-text');
-    out.classList.remove('placeholder-state');
-    out.className = langConfig[selectedLang].cls;
+    var code = LANGS[activeLang].code;
 
-    const langCode = langConfig[selectedLang].code;
-    let result = null;
-    let lastError = null;
+    fetchGoogle(text, code)
+      .then(function (result) {
+        displayResult(result);
+      })
+      .catch(function (err) {
+        console.warn('Google failed (' + err.message + '), trying MyMemory...');
+        showStatus('<span class="spinner"></span> Trying backup service...', 'loading');
+        return fetchMyMemory(text, code);
+      })
+      .then(function (result) {
+        displayResult(result);
+      })
+      .catch(function (err) {
+        console.error('Both APIs failed:', err.message);
+        showPlaceholder();
+        showStatus('Translation failed — check your internet and try again.', 'error');
+        setBusy(false);
+      });
+  }
 
-    // Try Google Translate first (most reliable, no CORS issues)
-    try {
-      setStatus('<span class="spinner"></span> Trying Google Translate...', 'loading');
-      result = await translateWithGoogleProxy(text, langCode);
-    } catch (e) {
-      lastError = e;
-      console.warn('Google Translate failed:', e.message);
-    }
+  function displayResult(text) {
+    outputEl.className = LANGS[activeLang].cls;
+    outputEl.textContent = text;
+    showStatus('Translation complete', 'success');
+    setBusy(false);
+  }
 
-    // Fallback to MyMemory
-    if (!result) {
-      try {
-        setStatus('<span class="spinner"></span> Trying MyMemory API...', 'loading');
-        result = await translateWithMyMemory(text, langCode);
-      } catch (e) {
-        lastError = e;
-        console.warn('MyMemory failed:', e.message);
-      }
-    }
-
-    if (result) {
-      out.textContent = result;
-      setStatus('✓ Translation complete', 'success');
+  function setBusy(busy) {
+    if (busy) {
+      translateBtn.disabled = true;
+      translateBtn.innerHTML = '<span class="spinner"></span> Translating...';
     } else {
-      out.className = langConfig[selectedLang].cls + ' placeholder-state';
-      out.textContent = '';
-      setStatus('✕ Translation failed. Check your internet connection and try again.', 'error');
-      console.error('All APIs failed. Last error:', lastError);
-    }
-
-    btn.disabled = false;
-    btn.innerHTML = '✦ Translate';
-  }
-
-  function setStatus(msg, type = '') {
-    const el = document.getElementById('status');
-    el.innerHTML = msg;
-    el.className = 'status-bar ' + type;
-  }
-
-  async function copyResult() {
-    const text = document.getElementById('output-text').textContent;
-    if (!text || text === 'Translation will appear here...') return;
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast();
-    } catch {
-      setStatus('Could not copy. Please select and copy manually.', 'error');
+      translateBtn.disabled = inputEl.value.trim() === '';
+      translateBtn.innerHTML = '&#10022; Translate';
     }
   }
 
-  function showToast() {
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
+  /* ── Google Translate (no API key) ─────────────── */
+  function fetchGoogle(text, langCode) {
+    var url = [
+      'https://translate.googleapis.com/translate_a/single',
+      '?client=gtx&sl=en&tl=', langCode,
+      '&dt=t&q=', encodeURIComponent(text)
+    ].join('');
+
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data || !Array.isArray(data[0])) throw new Error('Bad response shape');
+        var translated = data[0]
+          .filter(function (seg) { return seg && seg[0]; })
+          .map(function (seg) { return seg[0]; })
+          .join('');
+        if (!translated) throw new Error('Empty result');
+        return translated;
+      });
   }
 
-  // Allow Ctrl+Enter to translate
-  document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') translate();
-  });
+  /* ── MyMemory fallback ──────────────────────────── */
+  function fetchMyMemory(text, langCode) {
+    var url = 'https://api.mymemory.translated.net/get'
+            + '?q=' + encodeURIComponent(text)
+            + '&langpair=en|' + langCode;
+
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (data.responseStatus === 200
+            && data.responseData
+            && data.responseData.translatedText) {
+          return data.responseData.translatedText;
+        }
+        throw new Error(data.responseMessage || 'Bad response');
+      });
+  }
+
+  /* ── Helpers ────────────────────────────────────── */
+  function showPlaceholder() {
+    outputEl.className = 'placeholder-state';
+    outputEl.textContent = 'Translation will appear here...';
+  }
+
+  function showStatus(html, type) {
+    statusEl.innerHTML = html;
+    statusEl.className = 'status-bar' + (type ? ' ' + type : '');
+  }
+
+})();
 </script>
 </body>
 </html>
