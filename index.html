@@ -16,117 +16,127 @@
       --card-bg: #13092A;
       --border: rgba(255,255,255,0.08);
     }
-    body {
-      background: var(--ink);
-      color: var(--cream);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      top: -200px; left: -200px;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      bottom: -200px; right: -200px;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(0,180,160,0.12) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
-      position: relative;
-      z-index: 1;
-    }
-    header { text-align: center; padding: 3rem 0 2.5rem; }
-    .logo-row { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-    .logo-dot { width: 10px; height: 10px; background: var(--saffron); border-radius: 50%; animation: pulse 2s infinite; }
+    body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+    body::before { content:''; position:fixed; top:-200px; left:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(255,107,53,.15) 0%,transparent 70%); pointer-events:none; z-index:0; }
+    body::after  { content:''; position:fixed; bottom:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(0,180,160,.12) 0%,transparent 70%); pointer-events:none; z-index:0; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; position: relative; z-index: 1; }
+
+    /* Header */
+    header { text-align: center; padding: 2.5rem 0 2rem; }
+    .logo-row { display:flex; align-items:center; justify-content:center; gap:.75rem; margin-bottom:.5rem; }
+    .logo-dot { width:10px; height:10px; background:var(--saffron); border-radius:50%; animation:pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, var(--cream) 0%, var(--gold) 60%, var(--saffron) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .tagline { color: rgba(255,248,239,0.5); font-size: 0.95rem; font-weight: 300; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.5rem; }
-    .lang-badge-row { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.2rem; }
-    .lang-badge { background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3); color: var(--saffron); padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.8rem; font-weight: 500; }
-    .lang-selector { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-    .lang-btn {
-      flex: 1; padding: 1rem;
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      color: rgba(255,248,239,0.5);
+    h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,6vw,3.5rem); font-weight:900; letter-spacing:-.02em; background:linear-gradient(135deg,var(--cream) 0%,var(--gold) 60%,var(--saffron) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .tagline { color:rgba(255,248,239,.5); font-size:.95rem; font-weight:300; letter-spacing:.08em; text-transform:uppercase; margin-top:.5rem; }
+    .lang-badge-row { display:flex; gap:.6rem; justify-content:center; margin-top:1rem; }
+    .lang-badge { background:rgba(255,107,53,.12); border:1px solid rgba(255,107,53,.3); color:var(--saffron); padding:.3rem .9rem; border-radius:999px; font-size:.8rem; font-weight:500; }
+
+    /* Language buttons */
+    .lang-selector { display:flex; gap:1rem; margin-bottom:1.2rem; }
+    .lang-btn { flex:1; padding:.9rem; background:var(--card-bg); border:2px solid var(--border); border-radius:14px; color:rgba(255,248,239,.5); font-family:'DM Sans',sans-serif; font-size:.95rem; font-weight:500; cursor:pointer; transition:all .25s ease; display:flex; flex-direction:column; align-items:center; gap:.3rem; }
+    .lang-btn .native-name { font-size:1.1rem; font-weight:600; color:rgba(255,248,239,.3); transition:color .25s; }
+    .lang-btn:hover { border-color:rgba(255,107,53,.4); color:var(--cream); }
+    .lang-btn.active { border-color:var(--saffron); background:rgba(255,107,53,.1); color:var(--cream); }
+    .lang-btn.active .native-name { color:var(--gold); }
+    #btn-kn .native-name { font-family:'Noto Sans Kannada',sans-serif; }
+    #btn-te .native-name { font-family:'Noto Sans Telugu',sans-serif; }
+
+    /* Tone selector */
+    .tone-section { margin-bottom: 1.2rem; }
+    .section-label { font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.35); margin-bottom:.65rem; display:block; }
+    .tone-grid { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .tone-btn {
+      padding:.45rem 1rem;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      color: rgba(255,248,239,.55);
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem; font-weight: 500;
+      font-size: .82rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+      transition: all .2s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
     }
-    .lang-btn .native-name { font-size: 1.1rem; font-weight: 600; color: rgba(255,248,239,0.3); transition: color 0.25s; }
-    .lang-btn:hover { border-color: rgba(255,107,53,0.4); color: var(--cream); }
-    .lang-btn.active { border-color: var(--saffron); background: rgba(255,107,53,0.1); color: var(--cream); }
-    .lang-btn.active .native-name { color: var(--gold); }
-    #btn-kn .native-name { font-family: 'Noto Sans Kannada', sans-serif; }
-    #btn-te .native-name { font-family: 'Noto Sans Telugu', sans-serif; }
-    .panel { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
-    @media(max-width:600px){ .panel{grid-template-columns:1fr} .lang-selector{flex-direction:column} }
-    .box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 18px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; transition: border-color 0.3s; }
-    .box:focus-within { border-color: rgba(255,107,53,0.4); }
-    .box-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,248,239,0.4); }
-    textarea { background: transparent; border: none; outline: none; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 300; line-height: 1.7; resize: none; flex: 1; min-height: 160px; }
-    textarea::placeholder { color: rgba(255,248,239,0.2); }
-    #output-text { min-height: 160px; line-height: 1.8; font-size: 1.05rem; color: var(--cream); white-space: pre-wrap; word-break: break-word; }
-    #output-text.kannada { font-family: 'Noto Sans Kannada', sans-serif; }
-    #output-text.telugu  { font-family: 'Noto Sans Telugu', sans-serif; }
-    #output-text.placeholder-state { color: rgba(255,248,239,0.2); font-style: italic; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; }
-    .char-count { font-size: 0.75rem; color: rgba(255,248,239,0.25); text-align: right; }
-    .actions { display: flex; gap: 0.75rem; align-items: center; }
-    .btn-translate {
-      flex: 1; padding: 1rem 2rem;
-      background: linear-gradient(135deg, var(--saffron), #E8500A);
-      border: none; border-radius: 12px;
-      color: white; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500;
-      cursor: pointer; transition: all 0.25s ease;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    .tone-btn:hover { border-color:rgba(255,107,53,.35); color:var(--cream); background:rgba(255,107,53,.06); }
+    .tone-btn.active { border-color:var(--gold); background:rgba(245,197,24,.1); color:var(--gold); }
+    .tone-btn .tone-emoji { font-size:.95rem; }
+
+    /* Tone preview badge */
+    .tone-preview {
+      display: none;
+      margin-top: .6rem;
+      padding: .4rem .85rem;
+      background: rgba(245,197,24,.07);
+      border: 1px solid rgba(245,197,24,.2);
+      border-radius: 8px;
+      font-size: .78rem;
+      color: rgba(245,197,24,.8);
+      font-style: italic;
     }
-    .btn-translate:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
-    .btn-translate:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-icon { width: 42px; height: 42px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 8px; color: rgba(255,248,239,0.6); font-size: 1.1rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-    .btn-icon:hover { background: rgba(255,255,255,0.12); color: var(--cream); }
-    .status-bar { min-height: 28px; text-align: center; font-size: 0.82rem; color: rgba(255,248,239,0.4); padding: 0.4rem; margin-top: 0.25rem; }
-    .status-bar.loading { color: var(--gold); }
-    .status-bar.error   { color: #FF4D6A; }
-    .status-bar.success { color: var(--teal); }
-    .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(245,197,24,0.3); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .examples { margin-top: 2rem; }
-    .examples-title { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,248,239,0.3); margin-bottom: 0.75rem; }
-    .example-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .chip { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 0.9rem; font-size: 0.82rem; color: rgba(255,248,239,0.55); cursor: pointer; transition: all 0.2s; user-select: none; }
-    .chip:hover { background: rgba(255,107,53,0.1); border-color: rgba(255,107,53,0.4); color: var(--cream); }
-    .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--teal); color: white; padding: 0.65rem 1.4rem; border-radius: 999px; font-size: 0.85rem; font-weight: 500; transition: transform 0.3s ease; z-index: 100; pointer-events: none; }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-    footer { text-align: center; padding: 2rem 0 0; color: rgba(255,248,239,0.2); font-size: 0.75rem; }
+    .tone-preview.visible { display: block; }
+
+    /* Panel */
+    .panel { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-bottom:1.2rem; }
+    @media(max-width:600px){ .panel{grid-template-columns:1fr} .lang-selector{flex-direction:column} .tone-grid{gap:.4rem} }
+    .box { background:var(--card-bg); border:1px solid var(--border); border-radius:18px; padding:1.25rem; display:flex; flex-direction:column; gap:.75rem; transition:border-color .3s; }
+    .box:focus-within { border-color:rgba(255,107,53,.4); }
+    .box-label { font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.4); }
+    .box-label-row { display:flex; align-items:center; justify-content:space-between; }
+    .tone-tag { font-size:.68rem; padding:.2rem .6rem; background:rgba(245,197,24,.12); border:1px solid rgba(245,197,24,.25); border-radius:999px; color:rgba(245,197,24,.8); font-weight:500; display:none; }
+    .tone-tag.visible { display:inline-block; }
+    textarea { background:transparent; border:none; outline:none; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:300; line-height:1.7; resize:none; flex:1; min-height:150px; }
+    textarea::placeholder { color:rgba(255,248,239,.2); }
+    #output-text { min-height:150px; line-height:1.8; font-size:1.05rem; color:var(--cream); white-space:pre-wrap; word-break:break-word; }
+    #output-text.kannada { font-family:'Noto Sans Kannada',sans-serif; }
+    #output-text.telugu  { font-family:'Noto Sans Telugu',sans-serif; }
+    #output-text.placeholder-state { color:rgba(255,248,239,.2); font-style:italic; font-family:'DM Sans',sans-serif; font-size:.95rem; }
+    .char-count { font-size:.75rem; color:rgba(255,248,239,.25); text-align:right; }
+
+    /* Actions */
+    .actions { display:flex; gap:.75rem; align-items:center; }
+    .btn-translate { flex:1; padding:1rem 2rem; background:linear-gradient(135deg,var(--saffron),#E8500A); border:none; border-radius:12px; color:white; font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; transition:all .25s ease; display:flex; align-items:center; justify-content:center; gap:.5rem; }
+    .btn-translate:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,107,53,.4); }
+    .btn-translate:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-icon { width:42px; height:42px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; color:rgba(255,248,239,.6); font-size:1.1rem; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; }
+    .btn-icon:hover { background:rgba(255,255,255,.12); color:var(--cream); }
+
+    /* Status */
+    .status-bar { min-height:28px; text-align:center; font-size:.82rem; color:rgba(255,248,239,.4); padding:.4rem; margin-top:.2rem; }
+    .status-bar.loading { color:var(--gold); }
+    .status-bar.error   { color:#FF4D6A; }
+    .status-bar.success { color:var(--teal); }
+    .spinner { display:inline-block; width:13px; height:13px; border:2px solid rgba(245,197,24,.3); border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; vertical-align:middle; margin-right:6px; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* Steps indicator */
+    .steps { display:flex; align-items:center; justify-content:center; gap:.5rem; margin:.3rem 0; font-size:.75rem; color:rgba(255,248,239,.3); }
+    .step { padding:.2rem .6rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--border); transition:all .3s; }
+    .step.active { background:rgba(245,197,24,.12); border-color:rgba(245,197,24,.3); color:var(--gold); }
+    .step.done   { background:rgba(0,180,160,.1); border-color:rgba(0,180,160,.3); color:var(--teal); }
+    .step-arrow  { opacity:.3; }
+
+    /* Examples */
+    .examples { margin-top:1.8rem; }
+    .examples-title { font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.3); margin-bottom:.65rem; display:block; }
+    .example-chips { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .chip { background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:999px; padding:.35rem .9rem; font-size:.82rem; color:rgba(255,248,239,.55); cursor:pointer; transition:all .2s; user-select:none; }
+    .chip:hover { background:rgba(255,107,53,.1); border-color:rgba(255,107,53,.4); color:var(--cream); }
+
+    /* Toast */
+    .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--teal); color:white; padding:.65rem 1.4rem; border-radius:999px; font-size:.85rem; font-weight:500; transition:transform .3s ease; z-index:100; pointer-events:none; }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+
+    footer { text-align:center; padding:2rem 0 0; color:rgba(255,248,239,.2); font-size:.75rem; }
   </style>
 </head>
 <body>
 <div class="container">
+
   <header>
     <div class="logo-row">
       <div class="logo-dot"></div>
@@ -140,6 +150,7 @@
     </div>
   </header>
 
+  <!-- Target Language -->
   <div class="lang-selector">
     <button class="lang-btn active" id="btn-kn">
       <span>Kannada</span>
@@ -151,9 +162,45 @@
     </button>
   </div>
 
+  <!-- Tone Selector -->
+  <div class="tone-section">
+    <span class="section-label">&#9672; Tone / Style</span>
+    <div class="tone-grid" id="tone-grid">
+      <button class="tone-btn active" data-tone="neutral" data-desc="Standard translation, no tone change">
+        <span class="tone-emoji">&#9898;</span> Neutral
+      </button>
+      <button class="tone-btn" data-tone="friendly" data-desc="Warm, casual and approachable">
+        <span class="tone-emoji">&#128522;</span> Friendly
+      </button>
+      <button class="tone-btn" data-tone="formal" data-desc="Professional and respectful">
+        <span class="tone-emoji">&#128084;</span> Formal
+      </button>
+      <button class="tone-btn" data-tone="funny" data-desc="Playful, humorous and light-hearted">
+        <span class="tone-emoji">&#128514;</span> Funny
+      </button>
+      <button class="tone-btn" data-tone="romantic" data-desc="Warm, affectionate and heartfelt">
+        <span class="tone-emoji">&#10084;</span> Romantic
+      </button>
+      <button class="tone-btn" data-tone="poetic" data-desc="Expressive, lyrical and elegant">
+        <span class="tone-emoji">&#127775;</span> Poetic
+      </button>
+      <button class="tone-btn" data-tone="rude" data-desc="Blunt, harsh and direct (use carefully!)">
+        <span class="tone-emoji">&#128548;</span> Blunt
+      </button>
+      <button class="tone-btn" data-tone="childlike" data-desc="Simple words, like speaking to a child">
+        <span class="tone-emoji">&#128118;</span> Simple
+      </button>
+    </div>
+    <div class="tone-preview" id="tone-preview"></div>
+  </div>
+
+  <!-- Translation Panel -->
   <div class="panel">
     <div class="box">
-      <span class="box-label">English</span>
+      <div class="box-label-row">
+        <span class="box-label">English</span>
+        <span class="tone-tag" id="tone-tag"></span>
+      </div>
       <textarea id="input-text" placeholder="Type or paste English text here..." maxlength="500"></textarea>
       <span class="char-count" id="char-count">0 / 500</span>
     </div>
@@ -163,16 +210,27 @@
     </div>
   </div>
 
+  <!-- Actions -->
   <div class="actions">
     <button class="btn-translate" id="translate-btn" disabled>&#10022; Translate</button>
     <button class="btn-icon" id="clear-btn" title="Clear">&#10005;</button>
-    <button class="btn-icon" id="copy-btn" title="Copy">&#9003;</button>
+    <button class="btn-icon" id="copy-btn" title="Copy translation">&#9003;</button>
+  </div>
+
+  <!-- Step indicators -->
+  <div class="steps" id="steps" style="display:none">
+    <span class="step" id="step-tone">1. Applying tone</span>
+    <span class="step-arrow">&#8250;</span>
+    <span class="step" id="step-translate">2. Translating</span>
+    <span class="step-arrow">&#8250;</span>
+    <span class="step" id="step-done">3. Done</span>
   </div>
 
   <div class="status-bar" id="status"></div>
 
+  <!-- Example Phrases -->
   <div class="examples">
-    <p class="examples-title">Try an example</p>
+    <span class="examples-title">&#9672; Try an example</span>
     <div class="example-chips" id="chips-container">
       <span class="chip">Hello, how are you?</span>
       <span class="chip">What is your name?</span>
@@ -186,19 +244,34 @@
 </div>
 
 <div class="toast" id="toast">Copied to clipboard!</div>
-<footer><p>Powered by MyMemory &amp; Google Translate APIs &nbsp;&middot;&nbsp; MVP v1.0</p></footer>
+<footer><p>Powered by Claude AI (tone) &amp; MyMemory / Google Translate &nbsp;&middot;&nbsp; MVP v2.0</p></footer>
 
 <script>
 (function () {
   'use strict';
 
+  /* ── Config ── */
   var LANGS = {
     kn: { label: 'Kannada', code: 'kn', cls: 'kannada' },
     te: { label: 'Telugu',  code: 'te', cls: 'telugu'  }
   };
+
+  var TONE_PROMPTS = {
+    neutral:   null, // skip AI rewrite, translate directly
+    friendly:  'Rewrite the following text in a warm, casual and friendly tone, as if talking to a close friend. Keep the same meaning. Return only the rewritten text, nothing else.',
+    formal:    'Rewrite the following text in a formal, professional and respectful tone suitable for official communication. Keep the same meaning. Return only the rewritten text, nothing else.',
+    funny:     'Rewrite the following text in a funny, playful and humorous tone with light jokes or wit. Keep the core meaning. Return only the rewritten text, nothing else.',
+    romantic:  'Rewrite the following text in a romantic, warm and affectionate tone. Keep the same meaning. Return only the rewritten text, nothing else.',
+    poetic:    'Rewrite the following text in a poetic, lyrical and expressive way using beautiful language. Keep the same meaning. Return only the rewritten text, nothing else.',
+    rude:      'Rewrite the following text in a very blunt, harsh and direct tone without any politeness filters. Keep the same meaning. Return only the rewritten text, nothing else.',
+    childlike: 'Rewrite the following text using very simple words and short sentences, as if explaining to a young child. Keep the same meaning. Return only the rewritten text, nothing else.'
+  };
+
   var activeLang = 'kn';
+  var activeTone = 'neutral';
   var isRunning  = false;
 
+  /* ── DOM refs ── */
   var inputEl      = document.getElementById('input-text');
   var outputEl     = document.getElementById('output-text');
   var outputLabel  = document.getElementById('output-label');
@@ -208,6 +281,9 @@
   var clearBtn     = document.getElementById('clear-btn');
   var copyBtn      = document.getElementById('copy-btn');
   var toastEl      = document.getElementById('toast');
+  var toneTag      = document.getElementById('tone-tag');
+  var tonePreview  = document.getElementById('tone-preview');
+  var stepsEl      = document.getElementById('steps');
 
   /* ── Language switch ── */
   document.getElementById('btn-kn').addEventListener('click', function () { setLang('kn'); });
@@ -221,6 +297,27 @@
     showPlaceholder();
     setStatus('', '');
   }
+
+  /* ── Tone switch ── */
+  document.getElementById('tone-grid').addEventListener('click', function (e) {
+    var btn = e.target.closest('.tone-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tone-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeTone = btn.dataset.tone;
+
+    // Update tag above input
+    if (activeTone === 'neutral') {
+      toneTag.textContent = '';
+      toneTag.classList.remove('visible');
+      tonePreview.classList.remove('visible');
+    } else {
+      toneTag.textContent = btn.textContent.trim();
+      toneTag.classList.add('visible');
+      tonePreview.textContent = btn.dataset.desc;
+      tonePreview.classList.add('visible');
+    }
+  });
 
   /* ── Input ── */
   inputEl.addEventListener('input', function () {
@@ -244,6 +341,7 @@
     translateBtn.disabled = true;
     showPlaceholder();
     setStatus('', '');
+    stepsEl.style.display = 'none';
   });
 
   /* ── Copy ── */
@@ -254,18 +352,18 @@
     navigator.clipboard.writeText(txt).then(function () {
       toastEl.classList.add('show');
       setTimeout(function () { toastEl.classList.remove('show'); }, 2000);
-    }).catch(function () {
-      setStatus('Copy failed — select text manually.', 'error');
-    });
+    }).catch(function () { setStatus('Copy failed — select text manually.', 'error'); });
   });
 
-  /* ── Translate ── */
+  /* ── Translate button ── */
   translateBtn.addEventListener('click', runTranslation);
   document.addEventListener('keydown', function (e) {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !translateBtn.disabled) runTranslation();
   });
 
-  /* ── Core logic ── */
+  /* ══════════════════════════════════════════
+     MAIN FLOW
+  ══════════════════════════════════════════ */
   function runTranslation() {
     var text = inputEl.value.trim();
     if (!text || isRunning) return;
@@ -275,41 +373,123 @@
     translateBtn.innerHTML = '<span class="spinner"></span> Translating...';
     outputEl.className = '';
     outputEl.textContent = '';
-    setStatus('<span class="spinner"></span> Translating...', 'loading');
 
     var langCode = LANGS[activeLang].code;
 
-    // Try MyMemory first (most permissive CORS), then Google as fallback
-    fetchMyMemory(text, langCode)
-      .then(function (result) {
-        onSuccess(result);
-      })
-      .catch(function (err1) {
-        console.warn('MyMemory failed:', err1.message);
-        setStatus('<span class="spinner"></span> Trying Google Translate...', 'loading');
-        return fetchGoogle(text, langCode);
-      })
-      .then(function (result) {
-        // This .then fires after EITHER the MyMemory success OR the Google fetch
-        // We only reach here if MyMemory failed — result comes from Google
-        if (!outputEl.textContent) { // only if not already set by onSuccess
+    if (activeTone !== 'neutral') {
+      /* Step 1: Apply tone via Claude, then Step 2: translate */
+      showSteps();
+      setStep('tone');
+      setStatus('<span class="spinner"></span> Applying ' + activeTone + ' tone with AI...', 'loading');
+
+      applyToneWithClaude(text, activeTone)
+        .then(function (tonedText) {
+          setStep('translate');
+          setStatus('<span class="spinner"></span> Translating to ' + LANGS[activeLang].label + '...', 'loading');
+          return doTranslation(tonedText, langCode);
+        })
+        .then(function (result) {
+          setStep('done');
           onSuccess(result);
-        }
+        })
+        .catch(function (err) {
+          console.error('Error in tone+translate flow:', err);
+          /* Fallback: if tone AI fails, try direct translation */
+          if (err.message && err.message.indexOf('tone') !== -1) {
+            setStatus('<span class="spinner"></span> AI unavailable, translating directly...', 'loading');
+            setStep('translate');
+            return doTranslation(text, langCode)
+              .then(function (result) {
+                setStep('done');
+                onSuccess(result);
+              });
+          }
+          onError(err.message || 'Translation failed.');
+        });
+    } else {
+      /* Neutral — skip tone step, translate directly */
+      stepsEl.style.display = 'none';
+      setStatus('<span class="spinner"></span> Translating...', 'loading');
+
+      doTranslation(text, langCode)
+        .then(function (result) { onSuccess(result); })
+        .catch(function (err) { onError(err.message || 'Translation failed.'); });
+    }
+  }
+
+  /* ── Claude tone rewriter ── */
+  function applyToneWithClaude(text, tone) {
+    var systemPrompt = TONE_PROMPTS[tone];
+    return fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 500,
+        messages: [{ role: 'user', content: systemPrompt + '\n\nText: ' + text }]
       })
-      .catch(function (err2) {
-        console.error('Google also failed:', err2.message);
-        onError('Both translation services failed. Please check your internet connection.');
+    })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function(e){ throw new Error('tone:Claude API error: ' + (e.error && e.error.message || res.status)); });
+      }
+      return res.json();
+    })
+    .then(function (data) {
+      var content = data.content && data.content[0] && data.content[0].text;
+      if (!content) throw new Error('tone:Empty Claude response');
+      return content.trim();
+    });
+  }
+
+  /* ── Translation (MyMemory → Google fallback) ── */
+  function doTranslation(text, langCode) {
+    return fetchMyMemory(text, langCode)
+      .catch(function (err1) {
+        console.warn('MyMemory failed:', err1.message, '— trying Google...');
+        return fetchGoogle(text, langCode);
       });
   }
 
+  function fetchMyMemory(text, langCode) {
+    var url = 'https://api.mymemory.translated.net/get?q='
+      + encodeURIComponent(text) + '&langpair=en|' + langCode;
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('MyMemory HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (json) {
+        if (json.responseStatus !== 200) throw new Error('MyMemory status ' + json.responseStatus);
+        var t = json.responseData && json.responseData.translatedText;
+        if (!t) throw new Error('MyMemory empty result');
+        if (t.toLowerCase() === text.toLowerCase()) throw new Error('MyMemory returned original text');
+        return t;
+      });
+  }
+
+  function fetchGoogle(text, langCode) {
+    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl='
+      + langCode + '&dt=t&q=' + encodeURIComponent(text);
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('Google HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (json) {
+        if (!json || !Array.isArray(json[0])) throw new Error('Google bad response');
+        var result = json[0].filter(function(s){return s&&s[0];}).map(function(s){return s[0];}).join('');
+        if (!result) throw new Error('Google empty result');
+        return result;
+      });
+  }
+
+  /* ── Result handlers ── */
   function onSuccess(text) {
-    if (!text || text.trim() === '') {
-      onError('Received empty translation. Please try again.');
-      return;
-    }
+    if (!text || !text.trim()) { onError('Received empty translation. Please try again.'); return; }
     outputEl.className = LANGS[activeLang].cls;
     outputEl.textContent = text;
-    setStatus('&#10003; Translation complete', 'success');
+    setStatus('&#10003; Translation complete' + (activeTone !== 'neutral' ? ' &nbsp;&middot;&nbsp; Tone: ' + activeTone : ''), 'success');
     resetBtn();
     isRunning = false;
   }
@@ -319,6 +499,7 @@
     setStatus('&#10005; ' + msg, 'error');
     resetBtn();
     isRunning = false;
+    stepsEl.style.display = 'none';
   }
 
   function resetBtn() {
@@ -326,49 +507,26 @@
     translateBtn.innerHTML = '&#10022; Translate';
   }
 
-  /* ── MyMemory API ── */
-  function fetchMyMemory(text, langCode) {
-    var url = 'https://api.mymemory.translated.net/get?q='
-      + encodeURIComponent(text) + '&langpair=en|' + langCode;
-
-    return fetch(url, { method: 'GET' })
-      .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      })
-      .then(function (json) {
-        console.log('MyMemory response:', json);
-        if (json.responseStatus !== 200) {
-          throw new Error('Status ' + json.responseStatus + ': ' + (json.responseMessage || 'unknown'));
-        }
-        var t = json.responseData && json.responseData.translatedText;
-        if (!t) throw new Error('Empty translatedText');
-        // MyMemory sometimes echoes back the original on failure
-        if (t.toLowerCase() === text.toLowerCase()) throw new Error('Translation unchanged');
-        return t;
-      });
+  /* ── Step indicators ── */
+  function showSteps() {
+    stepsEl.style.display = 'flex';
+    ['step-tone','step-translate','step-done'].forEach(function(id){
+      var el = document.getElementById(id);
+      el.classList.remove('active','done');
+    });
   }
 
-  /* ── Google Translate (unofficial) ── */
-  function fetchGoogle(text, langCode) {
-    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl='
-      + langCode + '&dt=t&q=' + encodeURIComponent(text);
-
-    return fetch(url)
-      .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      })
-      .then(function (json) {
-        console.log('Google response:', json);
-        if (!json || !Array.isArray(json[0])) throw new Error('Unexpected response shape');
-        var result = json[0]
-          .filter(function (seg) { return seg && seg[0]; })
-          .map(function (seg) { return seg[0]; })
-          .join('');
-        if (!result) throw new Error('Empty result');
-        return result;
-      });
+  function setStep(name) {
+    var map = { tone: 'step-tone', translate: 'step-translate', done: 'step-done' };
+    var order = ['step-tone','step-translate','step-done'];
+    var target = map[name];
+    var reached = false;
+    order.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (id === target) { el.classList.add('active'); el.classList.remove('done'); reached = true; }
+      else if (!reached) { el.classList.remove('active'); el.classList.add('done'); }
+      else { el.classList.remove('active','done'); }
+    });
   }
 
   /* ── Helpers ── */
