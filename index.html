@@ -4,234 +4,285 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bhasha — English to Indian Languages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --saffron: #FF6B35;
-      --ink: #0D0D1A;
-      --cream: #FFF8EF;
-      --gold: #F5C518;
-      --teal: #00B4A0;
-      --card-bg: #13092A;
+      --saffron: #FF6B35; --ink: #0D0D1A; --cream: #FFF8EF;
+      --gold: #F5C518; --teal: #00B4A0; --card: #13092A;
       --border: rgba(255,255,255,0.08);
     }
-    body { background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-    body::before { content:''; position:fixed; top:-200px; left:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(255,107,53,.15) 0%,transparent 70%); pointer-events:none; z-index:0; }
-    body::after  { content:''; position:fixed; bottom:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(0,180,160,.12) 0%,transparent 70%); pointer-events:none; z-index:0; }
+    body { background:var(--ink); color:var(--cream); font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; }
+    body::before { content:''; position:fixed; top:-200px; left:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(255,107,53,.15),transparent 70%); pointer-events:none; z-index:0; }
+    body::after  { content:''; position:fixed; bottom:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(0,180,160,.12),transparent 70%); pointer-events:none; z-index:0; }
+    .page { max-width:900px; margin:0 auto; padding:2rem 1.5rem 4rem; position:relative; z-index:1; }
 
-    .container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; position: relative; z-index: 1; }
-
-    /* Header */
-    header { text-align: center; padding: 2.5rem 0 2rem; }
-    .logo-row { display:flex; align-items:center; justify-content:center; gap:.75rem; margin-bottom:.5rem; }
-    .logo-dot { width:10px; height:10px; background:var(--saffron); border-radius:50%; animation:pulse 2s infinite; }
+    /* ── Header ── */
+    header { text-align:center; padding:2rem 0 2rem; }
+    .logo-row { display:flex; align-items:center; justify-content:center; gap:.75rem; margin-bottom:.4rem; }
+    .dot { width:10px; height:10px; background:var(--saffron); border-radius:50%; animation:pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
-    h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,6vw,3.5rem); font-weight:900; letter-spacing:-.02em; background:linear-gradient(135deg,var(--cream) 0%,var(--gold) 60%,var(--saffron) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .tagline { color:rgba(255,248,239,.5); font-size:.95rem; font-weight:300; letter-spacing:.08em; text-transform:uppercase; margin-top:.5rem; }
-    .lang-badge-row { display:flex; gap:.6rem; justify-content:center; margin-top:1rem; }
-    .lang-badge { background:rgba(255,107,53,.12); border:1px solid rgba(255,107,53,.3); color:var(--saffron); padding:.3rem .9rem; border-radius:999px; font-size:.8rem; font-weight:500; }
+    h1 { font-family:'Playfair Display',serif; font-size:clamp(2rem,6vw,3.2rem); font-weight:900; background:linear-gradient(135deg,var(--cream),var(--gold) 60%,var(--saffron)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .tagline { color:rgba(255,248,239,.5); font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; margin-top:.4rem; }
+    .badge-row { display:flex; gap:.5rem; justify-content:center; margin-top:.9rem; flex-wrap:wrap; }
+    .badge { background:rgba(255,107,53,.12); border:1px solid rgba(255,107,53,.3); color:var(--saffron); padding:.25rem .8rem; border-radius:999px; font-size:.78rem; }
 
-    /* Language buttons */
-    .lang-selector { display:flex; gap:1rem; margin-bottom:1.2rem; }
-    .lang-btn { flex:1; padding:.9rem; background:var(--card-bg); border:2px solid var(--border); border-radius:14px; color:rgba(255,248,239,.5); font-family:'DM Sans',sans-serif; font-size:.95rem; font-weight:500; cursor:pointer; transition:all .25s ease; display:flex; flex-direction:column; align-items:center; gap:.3rem; }
-    .lang-btn .native-name { font-size:1.1rem; font-weight:600; color:rgba(255,248,239,.3); transition:color .25s; }
+    /* ── Language ── */
+    .lang-sel { display:flex; gap:1rem; margin-bottom:1.2rem; }
+    .lang-btn { flex:1; padding:.85rem; background:var(--card); border:2px solid var(--border); border-radius:14px; color:rgba(255,248,239,.5); font-family:'DM Sans',sans-serif; font-size:.9rem; font-weight:500; cursor:pointer; transition:all .25s; display:flex; flex-direction:column; align-items:center; gap:.25rem; }
+    .lang-btn .native { font-size:1.1rem; font-weight:600; color:rgba(255,248,239,.3); transition:color .25s; }
     .lang-btn:hover { border-color:rgba(255,107,53,.4); color:var(--cream); }
-    .lang-btn.active { border-color:var(--saffron); background:rgba(255,107,53,.1); color:var(--cream); }
-    .lang-btn.active .native-name { color:var(--gold); }
-    #btn-kn .native-name { font-family:'Noto Sans Kannada',sans-serif; }
-    #btn-te .native-name { font-family:'Noto Sans Telugu',sans-serif; }
+    .lang-btn.on { border-color:var(--saffron); background:rgba(255,107,53,.1); color:var(--cream); }
+    .lang-btn.on .native { color:var(--gold); }
+    #btn-kn .native { font-family:'Noto Sans Kannada',sans-serif; }
+    #btn-te .native { font-family:'Noto Sans Telugu',sans-serif; }
 
-    /* Tone selector */
-    .tone-section { margin-bottom: 1.2rem; }
-    .section-label { font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.35); margin-bottom:.65rem; display:block; }
-    .tone-grid { display:flex; flex-wrap:wrap; gap:.5rem; }
-    .tone-btn {
-      padding:.45rem 1rem;
-      background: rgba(255,255,255,0.04);
-      border: 1.5px solid var(--border);
-      border-radius: 999px;
-      color: rgba(255,248,239,.55);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .82rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s ease;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      gap: .35rem;
-    }
+    /* ── Tone ── */
+    .sec-label { font-size:.7rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.35); margin-bottom:.6rem; display:block; }
+    .tone-grid { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .tone-btn { padding:.42rem .9rem; background:rgba(255,255,255,.04); border:1.5px solid var(--border); border-radius:999px; color:rgba(255,248,239,.55); font-family:'DM Sans',sans-serif; font-size:.8rem; font-weight:500; cursor:pointer; transition:all .2s; user-select:none; }
     .tone-btn:hover { border-color:rgba(255,107,53,.35); color:var(--cream); background:rgba(255,107,53,.06); }
-    .tone-btn.active { border-color:var(--gold); background:rgba(245,197,24,.1); color:var(--gold); }
-    .tone-btn .tone-emoji { font-size:.95rem; }
+    .tone-btn.on { border-color:var(--gold); background:rgba(245,197,24,.1); color:var(--gold); }
+    .tone-desc { display:none; margin-top:.5rem; padding:.35rem .8rem; background:rgba(245,197,24,.07); border:1px solid rgba(245,197,24,.2); border-radius:8px; font-size:.76rem; color:rgba(245,197,24,.8); font-style:italic; }
+    .tone-desc.show { display:block; }
 
-    /* Tone preview badge */
-    .tone-preview {
-      display: none;
-      margin-top: .6rem;
-      padding: .4rem .85rem;
-      background: rgba(245,197,24,.07);
-      border: 1px solid rgba(245,197,24,.2);
-      border-radius: 8px;
-      font-size: .78rem;
-      color: rgba(245,197,24,.8);
-      font-style: italic;
-    }
-    .tone-preview.visible { display: block; }
+    /* ── API Key notice ── */
+    .api-notice { background:rgba(245,197,24,.06); border:1px solid rgba(245,197,24,.22); border-radius:14px; padding:1rem 1.1rem; margin-bottom:1.2rem; font-size:.82rem; color:rgba(245,197,24,.85); display:none; }
+    .api-notice.show { display:block; }
+    .api-notice a { color:var(--gold); text-decoration:underline; }
+    .api-notice-title { font-size:.9rem; font-weight:600; color:var(--gold); margin-bottom:.45rem; display:flex; align-items:center; gap:.4rem; }
+    .api-notice-sub { line-height:1.55; margin-bottom:.1rem; }
+    .api-key-row { display:flex; gap:.5rem; margin-top:.65rem; }
+    .api-key-input { flex:1; background:rgba(255,255,255,.06); border:1px solid rgba(245,197,24,.3); border-radius:8px; padding:.45rem .8rem; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:.82rem; outline:none; transition:border-color .2s; }
+    .api-key-input:focus { border-color:rgba(245,197,24,.6); }
+    .api-key-input::placeholder { color:rgba(255,255,255,.28); }
+    .api-key-save { padding:.45rem 1rem; background:rgba(245,197,24,.18); border:1px solid rgba(245,197,24,.35); border-radius:8px; color:var(--gold); font-family:'DM Sans',sans-serif; font-size:.8rem; font-weight:500; cursor:pointer; transition:all .2s; white-space:nowrap; }
+    .api-key-save:hover { background:rgba(245,197,24,.28); }
+    /* ── Security badges ── */
+    .security-badges { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.8rem; padding-top:.75rem; border-top:1px solid rgba(245,197,24,.12); }
+    .sec-badge { display:flex; align-items:center; gap:.3rem; padding:.28rem .72rem; border-radius:999px; font-size:.72rem; font-weight:500; }
+    .sec-badge.green { background:rgba(0,180,160,.12); border:1px solid rgba(0,180,160,.3); color:var(--teal); }
+    .sec-badge.blue  { background:rgba(100,160,255,.1); border:1px solid rgba(100,160,255,.25); color:#7eb8ff; }
+    .sec-badge.grey  { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); color:rgba(255,248,239,.5); }
 
-    /* Panel */
-    .panel { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-bottom:1.2rem; }
-    @media(max-width:600px){ .panel{grid-template-columns:1fr} .lang-selector{flex-direction:column} .tone-grid{gap:.4rem} }
-    .box { background:var(--card-bg); border:1px solid var(--border); border-radius:18px; padding:1.25rem; display:flex; flex-direction:column; gap:.75rem; transition:border-color .3s; }
+    /* ── Panel ── */
+    .panel { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin:1.2rem 0; }
+    .box { background:var(--card); border:1px solid var(--border); border-radius:18px; padding:1.2rem; display:flex; flex-direction:column; gap:.7rem; transition:border-color .3s; }
     .box:focus-within { border-color:rgba(255,107,53,.4); }
-    .box-label { font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.4); }
-    .box-label-row { display:flex; align-items:center; justify-content:space-between; }
-    .tone-tag { font-size:.68rem; padding:.2rem .6rem; background:rgba(245,197,24,.12); border:1px solid rgba(245,197,24,.25); border-radius:999px; color:rgba(245,197,24,.8); font-weight:500; display:none; }
-    .tone-tag.visible { display:inline-block; }
+    .box-top { display:flex; align-items:center; justify-content:space-between; }
+    .box-label { font-size:.7rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.4); }
+    .tone-tag { font-size:.66rem; padding:.18rem .55rem; background:rgba(245,197,24,.12); border:1px solid rgba(245,197,24,.25); border-radius:999px; color:rgba(245,197,24,.8); display:none; }
+    .tone-tag.show { display:inline-block; }
     textarea { background:transparent; border:none; outline:none; color:var(--cream); font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:300; line-height:1.7; resize:none; flex:1; min-height:150px; }
     textarea::placeholder { color:rgba(255,248,239,.2); }
-    #output-text { min-height:150px; line-height:1.8; font-size:1.05rem; color:var(--cream); white-space:pre-wrap; word-break:break-word; }
-    #output-text.kannada { font-family:'Noto Sans Kannada',sans-serif; }
-    #output-text.telugu  { font-family:'Noto Sans Telugu',sans-serif; }
-    #output-text.placeholder-state { color:rgba(255,248,239,.2); font-style:italic; font-family:'DM Sans',sans-serif; font-size:.95rem; }
-    .char-count { font-size:.75rem; color:rgba(255,248,239,.25); text-align:right; }
+    .char-c { font-size:.72rem; color:rgba(255,248,239,.25); text-align:right; }
+    #output { min-height:150px; line-height:1.8; font-size:1.05rem; white-space:pre-wrap; word-break:break-word; color:rgba(255,248,239,.2); font-style:italic; }
+    #output.kn { font-family:'Noto Sans Kannada',sans-serif; color:var(--cream); font-style:normal; }
+    #output.te { font-family:'Noto Sans Telugu',sans-serif; color:var(--cream); font-style:normal; }
 
-    /* Actions */
+    /* ── Actions ── */
     .actions { display:flex; gap:.75rem; align-items:center; }
-    .btn-translate { flex:1; padding:1rem 2rem; background:linear-gradient(135deg,var(--saffron),#E8500A); border:none; border-radius:12px; color:white; font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; transition:all .25s ease; display:flex; align-items:center; justify-content:center; gap:.5rem; }
-    .btn-translate:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,107,53,.4); }
-    .btn-translate:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-main { flex:1; padding:1rem 2rem; background:linear-gradient(135deg,var(--saffron),#E8500A); border:none; border-radius:12px; color:#fff; font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:500; cursor:pointer; transition:all .25s; display:flex; align-items:center; justify-content:center; gap:.5rem; }
+    .btn-main:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,107,53,.4); }
+    .btn-main:disabled { opacity:.5; cursor:not-allowed; }
     .btn-icon { width:42px; height:42px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:8px; color:rgba(255,248,239,.6); font-size:1.1rem; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; }
     .btn-icon:hover { background:rgba(255,255,255,.12); color:var(--cream); }
 
-    /* Status */
-    .status-bar { min-height:28px; text-align:center; font-size:.82rem; color:rgba(255,248,239,.4); padding:.4rem; margin-top:.2rem; }
-    .status-bar.loading { color:var(--gold); }
-    .status-bar.error   { color:#FF4D6A; }
-    .status-bar.success { color:var(--teal); }
-    .spinner { display:inline-block; width:13px; height:13px; border:2px solid rgba(245,197,24,.3); border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; vertical-align:middle; margin-right:6px; }
-    @keyframes spin { to { transform:rotate(360deg); } }
+    /* ── Status ── */
+    .status { min-height:26px; text-align:center; font-size:.8rem; padding:.3rem; margin-top:.2rem; color:rgba(255,248,239,.4); }
+    .status.loading { color:var(--gold); }
+    .status.error   { color:#FF4D6A; }
+    .status.success { color:var(--teal); }
+    .spinner { display:inline-block; width:12px; height:12px; border:2px solid rgba(245,197,24,.3); border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite; vertical-align:middle; margin-right:5px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
 
-    /* Steps indicator */
-    .steps { display:flex; align-items:center; justify-content:center; gap:.5rem; margin:.3rem 0; font-size:.75rem; color:rgba(255,248,239,.3); }
-    .step { padding:.2rem .6rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--border); transition:all .3s; }
+    /* ── Steps ── */
+    .steps { display:none; align-items:center; justify-content:center; gap:.5rem; font-size:.73rem; padding:.3rem 0; color:rgba(255,248,239,.3); flex-wrap:wrap; }
+    .steps.show { display:flex; }
+    .step { padding:.2rem .65rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--border); transition:all .3s; }
     .step.active { background:rgba(245,197,24,.12); border-color:rgba(245,197,24,.3); color:var(--gold); }
     .step.done   { background:rgba(0,180,160,.1); border-color:rgba(0,180,160,.3); color:var(--teal); }
-    .step-arrow  { opacity:.3; }
+    .arr { opacity:.3; }
 
-    /* Examples */
+    /* ── Examples ── */
     .examples { margin-top:1.8rem; }
-    .examples-title { font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,248,239,.3); margin-bottom:.65rem; display:block; }
-    .example-chips { display:flex; flex-wrap:wrap; gap:.5rem; }
-    .chip { background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:999px; padding:.35rem .9rem; font-size:.82rem; color:rgba(255,248,239,.55); cursor:pointer; transition:all .2s; user-select:none; }
+    .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.6rem; }
+    .chip { background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:999px; padding:.32rem .85rem; font-size:.8rem; color:rgba(255,248,239,.55); cursor:pointer; transition:all .2s; user-select:none; }
     .chip:hover { background:rgba(255,107,53,.1); border-color:rgba(255,107,53,.4); color:var(--cream); }
 
-    /* Toast */
-    .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--teal); color:white; padding:.65rem 1.4rem; border-radius:999px; font-size:.85rem; font-weight:500; transition:transform .3s ease; z-index:100; pointer-events:none; }
+    /* ── Toast ── */
+    .toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--teal); color:#fff; padding:.6rem 1.4rem; border-radius:999px; font-size:.84rem; font-weight:500; transition:transform .3s; z-index:100; pointer-events:none; }
     .toast.show { transform:translateX(-50%) translateY(0); }
+    footer { text-align:center; margin-top:2.5rem; color:rgba(255,248,239,.18); font-size:.72rem; }
 
-    footer { text-align:center; padding:2rem 0 0; color:rgba(255,248,239,.2); font-size:.75rem; }
+
+
+    /* ── Text-to-Speech buttons ── */
+    .speak-btn {
+      width:32px; height:32px; border-radius:50%;
+      background:rgba(255,255,255,.06); border:1.5px solid var(--border);
+      color:rgba(255,248,239,.45); font-size:.9rem;
+      cursor:pointer; transition:all .25s; display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .speak-btn:hover { background:rgba(0,180,160,.12); border-color:rgba(0,180,160,.4); color:var(--teal); }
+    .speak-btn.speaking {
+      background:rgba(0,180,160,.18); border-color:var(--teal);
+      color:var(--teal); animation:tts-pulse 1.2s ease-in-out infinite;
+    }
+    .speak-btn:disabled, .speak-btn.no-text { opacity:.25; cursor:not-allowed; }
+    @keyframes tts-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(0,180,160,.5); }
+      50%      { box-shadow: 0 0 0 7px rgba(0,180,160,0); }
+    }
+    .output-toolbar { display:flex; align-items:center; justify-content:space-between; margin-top:.3rem; }
+    .tts-warn { font-size:.7rem; color:rgba(255,107,53,.6); margin-top:.25rem; display:none; }
+    .tts-warn.show { display:block; }
+
+    /* ── Voice input ── */
+    .input-toolbar { display:flex; align-items:center; justify-content:space-between; }
+    .mic-btn {
+      width:36px; height:36px; border-radius:50%;
+      background:rgba(255,255,255,.06); border:1.5px solid var(--border);
+      color:rgba(255,248,239,.5); font-size:1rem;
+      cursor:pointer; transition:all .25s; display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .mic-btn:hover { background:rgba(255,107,53,.12); border-color:rgba(255,107,53,.4); color:var(--saffron); }
+    .mic-btn.listening {
+      background:rgba(255,60,60,.15); border-color:rgba(255,60,60,.6);
+      color:#ff4444; animation:mic-pulse 1s ease-in-out infinite;
+    }
+    .mic-btn.unsupported { opacity:.3; cursor:not-allowed; }
+    @keyframes mic-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(255,60,60,.4); }
+      50%      { box-shadow: 0 0 0 8px rgba(255,60,60,0); }
+    }
+    .voice-status {
+      font-size:.72rem; color:rgba(255,60,60,.8); margin-top:.35rem;
+      display:none; align-items:center; gap:.4rem;
+    }
+    .voice-status.show { display:flex; }
+    .voice-dot { width:7px; height:7px; background:#ff4444; border-radius:50%; animation:blink .8s infinite; flex-shrink:0; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .browser-warn { font-size:.72rem; color:rgba(255,107,53,.7); margin-top:.3rem; display:none; }
+    .browser-warn.show { display:block; }
+
+    @media(max-width:580px) { .panel{grid-template-columns:1fr} .lang-sel{flex-direction:column} }
   </style>
 </head>
 <body>
-<div class="container">
+<div class="page">
 
   <header>
-    <div class="logo-row">
-      <div class="logo-dot"></div>
-      <h1>Bhasha</h1>
-      <div class="logo-dot"></div>
-    </div>
-    <p class="tagline">English &rarr; Indian Language Translator</p>
-    <div class="lang-badge-row">
-      <span class="lang-badge">&#3221;&#3240;&#3277;&#3240;&#3233; Kannada</span>
-      <span class="lang-badge">&#3108;&#3142;&#3122;&#3137;&#3095;&#3137; Telugu</span>
+    <div class="logo-row"><div class="dot"></div><h1>Bhasha</h1><div class="dot"></div></div>
+    <p class="tagline">English → Indian Language Translator</p>
+    <div class="badge-row">
+      <span class="badge">ಕನ್ನಡ Kannada</span>
+      <span class="badge">తెలుగు Telugu</span>
     </div>
   </header>
 
-  <!-- Target Language -->
-  <div class="lang-selector">
-    <button class="lang-btn active" id="btn-kn">
-      <span>Kannada</span>
-      <span class="native-name">&#3221;&#3240;&#3277;&#3240;&#3233;</span>
+  <!-- Language -->
+  <div class="lang-sel">
+    <button class="lang-btn on" id="btn-kn">
+      <span>Kannada</span><span class="native">ಕನ್ನಡ</span>
     </button>
     <button class="lang-btn" id="btn-te">
-      <span>Telugu</span>
-      <span class="native-name">&#3108;&#3142;&#3122;&#3137;&#3095;&#3137;</span>
+      <span>Telugu</span><span class="native">తెలుగు</span>
     </button>
   </div>
 
-  <!-- Tone Selector -->
-  <div class="tone-section">
-    <span class="section-label">&#9672; Tone / Style</span>
-    <div class="tone-grid" id="tone-grid">
-      <button class="tone-btn active" data-tone="neutral" data-desc="Standard translation, no tone change">
-        <span class="tone-emoji">&#9898;</span> Neutral
-      </button>
-      <button class="tone-btn" data-tone="friendly" data-desc="Warm, casual and approachable">
-        <span class="tone-emoji">&#128522;</span> Friendly
-      </button>
-      <button class="tone-btn" data-tone="formal" data-desc="Professional and respectful">
-        <span class="tone-emoji">&#128084;</span> Formal
-      </button>
-      <button class="tone-btn" data-tone="funny" data-desc="Playful, humorous and light-hearted">
-        <span class="tone-emoji">&#128514;</span> Funny
-      </button>
-      <button class="tone-btn" data-tone="romantic" data-desc="Warm, affectionate and heartfelt">
-        <span class="tone-emoji">&#10084;</span> Romantic
-      </button>
-      <button class="tone-btn" data-tone="poetic" data-desc="Expressive, lyrical and elegant">
-        <span class="tone-emoji">&#127775;</span> Poetic
-      </button>
-      <button class="tone-btn" data-tone="rude" data-desc="Blunt, harsh and direct (use carefully!)">
-        <span class="tone-emoji">&#128548;</span> Blunt
-      </button>
-      <button class="tone-btn" data-tone="childlike" data-desc="Simple words, like speaking to a child">
-        <span class="tone-emoji">&#128118;</span> Simple
-      </button>
+  <!-- Tone -->
+  <div style="margin-bottom:1.2rem">
+    <span class="sec-label">◆ Tone / Style</span>
+    <div class="tone-grid" id="toneGrid">
+      <button class="tone-btn on"  data-tone="neutral"  data-desc="Standard translation, no tone change applied">⚪ Neutral</button>
+      <button class="tone-btn"     data-tone="friendly" data-desc="Warm and casual — like texting a close friend">😊 Friendly</button>
+      <button class="tone-btn"     data-tone="formal"   data-desc="Professional and respectful — for official use">👔 Formal</button>
+      <button class="tone-btn"     data-tone="funny"    data-desc="Playful and humorous with light wit">😂 Funny</button>
+      <button class="tone-btn"     data-tone="romantic" data-desc="Warm, affectionate and heartfelt">❤️ Romantic</button>
+      <button class="tone-btn"     data-tone="poetic"   data-desc="Lyrical, expressive and elegant">✨ Poetic</button>
+      <button class="tone-btn"     data-tone="blunt"    data-desc="Harsh and direct — no softening, no filters">😤 Blunt</button>
+      <button class="tone-btn"     data-tone="simple"   data-desc="Very easy words — anyone can understand">👦 Simple</button>
     </div>
-    <div class="tone-preview" id="tone-preview"></div>
+    <div class="tone-desc" id="toneDesc"></div>
+  </div>
+
+  <!-- API Key notice (shown when non-neutral tone selected) -->
+  <div class="api-notice" id="apiNotice">
+    <div class="api-notice-title">⚡ API Key Required for Tone Feature</div>
+    <div class="api-notice-sub">
+      Get a free key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — free tier is enough for hundreds of requests per day.
+    </div>
+    <div class="api-key-row">
+      <input class="api-key-input" id="apiKeyInput" type="password" placeholder="Paste your API key: sk-ant-..."/>
+      <button class="api-key-save" id="apiKeySave">Save Key</button>
+    </div>
+    <!-- Security assurance badges -->
+    <div class="security-badges">
+      <span class="sec-badge green">🔒 Stored only in your browser (localStorage)</span>
+      <span class="sec-badge blue">🚫 Never sent to any server</span>
+      <span class="sec-badge grey">👁 Only used to call Anthropic API directly</span>
+      <span class="sec-badge green">🗑 Clear anytime — just delete and save</span>
+    </div>
   </div>
 
   <!-- Translation Panel -->
   <div class="panel">
     <div class="box">
-      <div class="box-label-row">
+      <div class="box-top">
         <span class="box-label">English</span>
-        <span class="tone-tag" id="tone-tag"></span>
+        <span class="tone-tag" id="toneTag"></span>
       </div>
-      <textarea id="input-text" placeholder="Type or paste English text here..." maxlength="500"></textarea>
-      <span class="char-count" id="char-count">0 / 500</span>
+      <textarea id="inputText" placeholder="Type, paste, or 🎤 speak English here..." maxlength="500"></textarea>
+      <div class="voice-status" id="voiceStatus">
+        <span class="voice-dot"></span> Listening... speak now
+      </div>
+      <div class="browser-warn" id="browserWarn">
+        ⚠️ Voice input requires Chrome or Edge browser
+      </div>
+      <div class="input-toolbar">
+        <div class="char-c" id="charCount">0 / 500</div>
+        <div style="display:flex;gap:.4rem;align-items:center;">
+          <button class="speak-btn no-text" id="speakEnBtn" title="Listen to English text">🔊</button>
+          <button class="mic-btn" id="micBtn" title="Click to speak">🎤</button>
+        </div>
+      </div>
     </div>
     <div class="box">
-      <span class="box-label" id="output-label">Kannada</span>
-      <div id="output-text" class="placeholder-state">Translation will appear here...</div>
+      <div class="box-top">
+        <span class="box-label" id="outputLabel">Kannada</span>
+        <button class="speak-btn no-text" id="speakOutBtn" title="Listen to translation">🔊</button>
+      </div>
+      <div id="output">Translation will appear here...</div>
+      <div class="tts-warn" id="ttsWarn"></div>
     </div>
   </div>
 
   <!-- Actions -->
   <div class="actions">
-    <button class="btn-translate" id="translate-btn" disabled>&#10022; Translate</button>
-    <button class="btn-icon" id="clear-btn" title="Clear">&#10005;</button>
-    <button class="btn-icon" id="copy-btn" title="Copy translation">&#9003;</button>
+    <button class="btn-main" id="translateBtn" disabled>✦ Translate</button>
+    <button class="btn-icon" id="clearBtn" title="Clear">✕</button>
+    <button class="btn-icon" id="copyBtn" title="Copy">⎘</button>
   </div>
 
-  <!-- Step indicators -->
-  <div class="steps" id="steps" style="display:none">
-    <span class="step" id="step-tone">1. Applying tone</span>
-    <span class="step-arrow">&#8250;</span>
-    <span class="step" id="step-translate">2. Translating</span>
-    <span class="step-arrow">&#8250;</span>
-    <span class="step" id="step-done">3. Done</span>
+  <!-- Step indicator -->
+  <div class="steps" id="steps">
+    <span class="step" id="s1">1. Applying tone</span>
+    <span class="arr">›</span>
+    <span class="step" id="s2">2. Translating</span>
+    <span class="arr">›</span>
+    <span class="step" id="s3">3. Done</span>
   </div>
 
-  <div class="status-bar" id="status"></div>
+  <div class="status" id="status"></div>
 
-  <!-- Example Phrases -->
+  <!-- Examples -->
   <div class="examples">
-    <span class="examples-title">&#9672; Try an example</span>
-    <div class="example-chips" id="chips-container">
+    <span class="sec-label">◆ Try an example</span>
+    <div class="chips" id="chips">
       <span class="chip">Hello, how are you?</span>
       <span class="chip">What is your name?</span>
       <span class="chip">I love India</span>
@@ -241,95 +292,113 @@
       <span class="chip">Please speak slowly</span>
     </div>
   </div>
+
+  <footer>Powered by Claude AI (tone) · MyMemory / Google Translate · v2.0</footer>
 </div>
 
-<div class="toast" id="toast">Copied to clipboard!</div>
-<footer><p>Powered by Claude AI (tone) &amp; MyMemory / Google Translate &nbsp;&middot;&nbsp; MVP v2.0</p></footer>
+<div class="toast" id="toast">Copied!</div>
 
 <script>
 (function () {
   'use strict';
 
-  /* ── Config ── */
-  var LANGS = {
-    kn: { label: 'Kannada', code: 'kn', cls: 'kannada' },
-    te: { label: 'Telugu',  code: 'te', cls: 'telugu'  }
-  };
+  /* ── State ── */
+  var lang      = 'kn';
+  var tone      = 'neutral';
+  var running   = false;
+  var savedKey  = localStorage.getItem('bhasha_api_key') || '';
 
   var TONE_PROMPTS = {
-    neutral:   null, // skip AI rewrite, translate directly
-    friendly:  'Rewrite the following text in a warm, casual and friendly tone, as if talking to a close friend. Keep the same meaning. Return only the rewritten text, nothing else.',
-    formal:    'Rewrite the following text in a formal, professional and respectful tone suitable for official communication. Keep the same meaning. Return only the rewritten text, nothing else.',
-    funny:     'Rewrite the following text in a funny, playful and humorous tone with light jokes or wit. Keep the core meaning. Return only the rewritten text, nothing else.',
-    romantic:  'Rewrite the following text in a romantic, warm and affectionate tone. Keep the same meaning. Return only the rewritten text, nothing else.',
-    poetic:    'Rewrite the following text in a poetic, lyrical and expressive way using beautiful language. Keep the same meaning. Return only the rewritten text, nothing else.',
-    rude:      'Rewrite the following text in a very blunt, harsh and direct tone without any politeness filters. Keep the same meaning. Return only the rewritten text, nothing else.',
-    childlike: 'Rewrite the following text using very simple words and short sentences, as if explaining to a young child. Keep the same meaning. Return only the rewritten text, nothing else.'
+    friendly: 'Rewrite this text in a warm, casual and friendly tone like texting a close friend. Keep the exact same meaning. Reply with ONLY the rewritten text, nothing else.',
+    formal:   'Rewrite this text in a formal, professional and respectful tone for official communication. Keep the exact same meaning. Reply with ONLY the rewritten text, nothing else.',
+    funny:    'Rewrite this text in a funny, playful and humorous tone with light wit. Keep the core meaning. Reply with ONLY the rewritten text, nothing else.',
+    romantic: 'Rewrite this text in a romantic, warm and affectionate tone. Keep the exact same meaning. Reply with ONLY the rewritten text, nothing else.',
+    poetic:   'Rewrite this text in a poetic, lyrical and expressive style. Keep the meaning. Reply with ONLY the rewritten text, nothing else.',
+    blunt:    'Rewrite this text in a blunt, harsh and direct tone with no politeness. Keep the same meaning. Reply with ONLY the rewritten text, nothing else.',
+    simple:   'Rewrite this text using very simple, short words so a young child can understand. Keep the meaning. Reply with ONLY the rewritten text, nothing else.'
   };
 
-  var activeLang = 'kn';
-  var activeTone = 'neutral';
-  var isRunning  = false;
+  var LANG_CFG = {
+    kn: { label: 'Kannada', cls: 'kn' },
+    te: { label: 'Telugu',  cls: 'te' }
+  };
 
-  /* ── DOM refs ── */
-  var inputEl      = document.getElementById('input-text');
-  var outputEl     = document.getElementById('output-text');
-  var outputLabel  = document.getElementById('output-label');
-  var charCountEl  = document.getElementById('char-count');
+  /* ── DOM ── */
+  var inputEl      = document.getElementById('inputText');
+  var outputEl     = document.getElementById('output');
+  var outputLabel  = document.getElementById('outputLabel');
+  var charCount    = document.getElementById('charCount');
   var statusEl     = document.getElementById('status');
-  var translateBtn = document.getElementById('translate-btn');
-  var clearBtn     = document.getElementById('clear-btn');
-  var copyBtn      = document.getElementById('copy-btn');
+  var translateBtn = document.getElementById('translateBtn');
+  var clearBtn     = document.getElementById('clearBtn');
+  var copyBtn      = document.getElementById('copyBtn');
   var toastEl      = document.getElementById('toast');
-  var toneTag      = document.getElementById('tone-tag');
-  var tonePreview  = document.getElementById('tone-preview');
+  var toneTag      = document.getElementById('toneTag');
+  var toneDesc     = document.getElementById('toneDesc');
   var stepsEl      = document.getElementById('steps');
+  var apiNotice    = document.getElementById('apiNotice');
+  var apiKeyInput  = document.getElementById('apiKeyInput');
+  var apiKeySave   = document.getElementById('apiKeySave');
 
-  /* ── Language switch ── */
+  /* pre-fill saved key */
+  if (savedKey) apiKeyInput.value = savedKey;
+
+  /* ── API key save ── */
+  apiKeySave.addEventListener('click', function () {
+    savedKey = apiKeyInput.value.trim();
+    localStorage.setItem('bhasha_api_key', savedKey);
+    apiKeySave.textContent = 'Saved ✓';
+    setTimeout(function () { apiKeySave.textContent = 'Save'; }, 1500);
+  });
+
+  /* ── Language ── */
   document.getElementById('btn-kn').addEventListener('click', function () { setLang('kn'); });
   document.getElementById('btn-te').addEventListener('click', function () { setLang('te'); });
-
-  function setLang(lang) {
-    activeLang = lang;
-    document.getElementById('btn-kn').classList.toggle('active', lang === 'kn');
-    document.getElementById('btn-te').classList.toggle('active', lang === 'te');
-    outputLabel.textContent = LANGS[lang].label;
-    showPlaceholder();
-    setStatus('', '');
+  function setLang(l) {
+    lang = l;
+    document.getElementById('btn-kn').classList.toggle('on', l === 'kn');
+    document.getElementById('btn-te').classList.toggle('on', l === 'te');
+    outputLabel.textContent = LANG_CFG[l].label;
+    resetOutput();
   }
 
-  /* ── Tone switch ── */
-  document.getElementById('tone-grid').addEventListener('click', function (e) {
+  /* ── Tone ── */
+  document.getElementById('toneGrid').addEventListener('click', function (e) {
     var btn = e.target.closest('.tone-btn');
     if (!btn) return;
-    document.querySelectorAll('.tone-btn').forEach(function (b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    activeTone = btn.dataset.tone;
+    document.querySelectorAll('.tone-btn').forEach(function (b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    tone = btn.dataset.tone;
 
-    // Update tag above input
-    if (activeTone === 'neutral') {
-      toneTag.textContent = '';
-      toneTag.classList.remove('visible');
-      tonePreview.classList.remove('visible');
+    if (tone === 'neutral') {
+      toneTag.className = 'tone-tag';
+      toneDesc.className = 'tone-desc';
+      apiNotice.className = 'api-notice';
+      stepsEl.className = 'steps';
     } else {
       toneTag.textContent = btn.textContent.trim();
-      toneTag.classList.add('visible');
-      tonePreview.textContent = btn.dataset.desc;
-      tonePreview.classList.add('visible');
+      toneTag.className = 'tone-tag show';
+      toneDesc.textContent = btn.dataset.desc;
+      toneDesc.className = 'tone-desc show';
+      apiNotice.className = 'api-notice show';
     }
   });
 
   /* ── Input ── */
   inputEl.addEventListener('input', function () {
-    charCountEl.textContent = inputEl.value.length + ' / 500';
-    translateBtn.disabled = inputEl.value.trim() === '' || isRunning;
+    charCount.textContent = inputEl.value.length + ' / 500';
+    translateBtn.disabled = inputEl.value.trim() === '' || running;
+  });
+
+  inputEl.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !translateBtn.disabled) go();
   });
 
   /* ── Example chips ── */
-  document.getElementById('chips-container').addEventListener('click', function (e) {
+  document.getElementById('chips').addEventListener('click', function (e) {
     if (!e.target.classList.contains('chip')) return;
     inputEl.value = e.target.textContent.trim();
-    charCountEl.textContent = inputEl.value.length + ' / 500';
+    charCount.textContent = inputEl.value.length + ' / 500';
     translateBtn.disabled = false;
     inputEl.focus();
   });
@@ -337,208 +406,433 @@
   /* ── Clear ── */
   clearBtn.addEventListener('click', function () {
     inputEl.value = '';
-    charCountEl.textContent = '0 / 500';
+    charCount.textContent = '0 / 500';
     translateBtn.disabled = true;
-    showPlaceholder();
+    resetOutput();
     setStatus('', '');
-    stepsEl.style.display = 'none';
+    stepsEl.className = 'steps';
   });
 
   /* ── Copy ── */
   copyBtn.addEventListener('click', function () {
-    if (outputEl.classList.contains('placeholder-state')) return;
-    var txt = outputEl.textContent || '';
-    if (!txt) return;
+    var txt = outputEl.textContent;
+    if (!txt || txt === 'Translation will appear here...') return;
     navigator.clipboard.writeText(txt).then(function () {
       toastEl.classList.add('show');
       setTimeout(function () { toastEl.classList.remove('show'); }, 2000);
-    }).catch(function () { setStatus('Copy failed — select text manually.', 'error'); });
+    });
   });
 
-  /* ── Translate button ── */
-  translateBtn.addEventListener('click', runTranslation);
-  document.addEventListener('keydown', function (e) {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !translateBtn.disabled) runTranslation();
-  });
+  /* ── Translate ── */
+  translateBtn.addEventListener('click', go);
 
-  /* ══════════════════════════════════════════
-     MAIN FLOW
-  ══════════════════════════════════════════ */
-  function runTranslation() {
+  /* ══════════════════════════
+     PIPELINE
+  ══════════════════════════ */
+  function go() {
     var text = inputEl.value.trim();
-    if (!text || isRunning) return;
+    if (!text || running) return;
 
-    isRunning = true;
+    running = true;
     translateBtn.disabled = true;
     translateBtn.innerHTML = '<span class="spinner"></span> Translating...';
     outputEl.className = '';
     outputEl.textContent = '';
 
-    var langCode = LANGS[activeLang].code;
+    var code = lang;
 
-    if (activeTone !== 'neutral') {
-      /* Step 1: Apply tone via Claude, then Step 2: translate */
-      showSteps();
-      setStep('tone');
-      setStatus('<span class="spinner"></span> Applying ' + activeTone + ' tone with AI...', 'loading');
+    if (tone !== 'neutral') {
+      stepsEl.className = 'steps show';
+      setStep('s1');
+      setStatus('<span class="spinner"></span> Applying ' + tone + ' tone with AI...', 'loading');
 
-      applyToneWithClaude(text, activeTone)
-        .then(function (tonedText) {
-          setStep('translate');
-          setStatus('<span class="spinner"></span> Translating to ' + LANGS[activeLang].label + '...', 'loading');
-          return doTranslation(tonedText, langCode);
+      applyTone(text, tone)
+        .then(function (toned) {
+          setStep('s2');
+          setStatus('<span class="spinner"></span> Translating to ' + LANG_CFG[code].label + '...', 'loading');
+          return runTranslation(toned, code);
         })
         .then(function (result) {
-          setStep('done');
-          onSuccess(result);
+          setStep('s3');
+          onDone(result);
         })
         .catch(function (err) {
-          console.error('Error in tone+translate flow:', err);
-          /* Fallback: if tone AI fails, try direct translation */
-          if (err.message && err.message.indexOf('tone') !== -1) {
-            setStatus('<span class="spinner"></span> AI unavailable, translating directly...', 'loading');
-            setStep('translate');
-            return doTranslation(text, langCode)
-              .then(function (result) {
-                setStep('done');
-                onSuccess(result);
-              });
+          /* if tone AI failed, fallback to direct translation */
+          if (err.isToneError) {
+            setStep('s2');
+            setStatus('<span class="spinner"></span> AI unavailable — translating directly...', 'loading');
+            runTranslation(text, code)
+              .then(function (r) { setStep('s3'); onDone(r); })
+              .catch(function (e) { onError(e.message); });
+          } else {
+            onError(err.message);
           }
-          onError(err.message || 'Translation failed.');
         });
-    } else {
-      /* Neutral — skip tone step, translate directly */
-      stepsEl.style.display = 'none';
-      setStatus('<span class="spinner"></span> Translating...', 'loading');
 
-      doTranslation(text, langCode)
-        .then(function (result) { onSuccess(result); })
-        .catch(function (err) { onError(err.message || 'Translation failed.'); });
+    } else {
+      stepsEl.className = 'steps';
+      setStatus('<span class="spinner"></span> Translating...', 'loading');
+      runTranslation(text, code)
+        .then(onDone)
+        .catch(function (e) { onError(e.message); });
     }
   }
 
   /* ── Claude tone rewriter ── */
-  function applyToneWithClaude(text, tone) {
-    var systemPrompt = TONE_PROMPTS[tone];
+  function applyTone(text, t) {
+    var key = savedKey || apiKeyInput.value.trim();
+    if (!key) {
+      var err = new Error('No API key. Please add your Anthropic API key above.');
+      err.isToneError = true;
+      return Promise.reject(err);
+    }
+
     return fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 500,
-        messages: [{ role: 'user', content: systemPrompt + '\n\nText: ' + text }]
+        messages: [{ role: 'user', content: TONE_PROMPTS[t] + '\n\nText: ' + text }]
       })
     })
     .then(function (res) {
       if (!res.ok) {
-        return res.json().then(function(e){ throw new Error('tone:Claude API error: ' + (e.error && e.error.message || res.status)); });
+        return res.json().then(function (e) {
+          var err = new Error('Claude API: ' + (e.error && e.error.message || res.status));
+          err.isToneError = true;
+          throw err;
+        });
       }
       return res.json();
     })
     .then(function (data) {
-      var content = data.content && data.content[0] && data.content[0].text;
-      if (!content) throw new Error('tone:Empty Claude response');
-      return content.trim();
+      var out = data && data.content && data.content[0] && data.content[0].text;
+      if (!out) { var err = new Error('Empty AI response'); err.isToneError = true; throw err; }
+      return out.trim();
     });
   }
 
-  /* ── Translation (MyMemory → Google fallback) ── */
-  function doTranslation(text, langCode) {
-    return fetchMyMemory(text, langCode)
-      .catch(function (err1) {
-        console.warn('MyMemory failed:', err1.message, '— trying Google...');
-        return fetchGoogle(text, langCode);
-      });
+  /* ── Translation: MyMemory → Google fallback ── */
+  function runTranslation(text, langCode) {
+    return fetchMyMemory(text, langCode).catch(function (e1) {
+      console.warn('MyMemory failed:', e1.message);
+      return fetchGoogle(text, langCode);
+    });
   }
 
   function fetchMyMemory(text, langCode) {
-    var url = 'https://api.mymemory.translated.net/get?q='
-      + encodeURIComponent(text) + '&langpair=en|' + langCode;
-    return fetch(url)
-      .then(function (res) {
-        if (!res.ok) throw new Error('MyMemory HTTP ' + res.status);
-        return res.json();
-      })
-      .then(function (json) {
-        if (json.responseStatus !== 200) throw new Error('MyMemory status ' + json.responseStatus);
-        var t = json.responseData && json.responseData.translatedText;
-        if (!t) throw new Error('MyMemory empty result');
-        if (t.toLowerCase() === text.toLowerCase()) throw new Error('MyMemory returned original text');
+    return fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=en|' + langCode)
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (j) {
+        if (j.responseStatus !== 200) throw new Error('MyMemory: ' + j.responseStatus);
+        var t = j.responseData && j.responseData.translatedText;
+        if (!t || t.toLowerCase() === text.toLowerCase()) throw new Error('No translation');
         return t;
       });
   }
 
   function fetchGoogle(text, langCode) {
-    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl='
-      + langCode + '&dt=t&q=' + encodeURIComponent(text);
-    return fetch(url)
-      .then(function (res) {
-        if (!res.ok) throw new Error('Google HTTP ' + res.status);
-        return res.json();
-      })
-      .then(function (json) {
-        if (!json || !Array.isArray(json[0])) throw new Error('Google bad response');
-        var result = json[0].filter(function(s){return s&&s[0];}).map(function(s){return s[0];}).join('');
-        if (!result) throw new Error('Google empty result');
-        return result;
+    return fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=' + langCode + '&dt=t&q=' + encodeURIComponent(text))
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (j) {
+        if (!j || !Array.isArray(j[0])) throw new Error('Bad response');
+        var res = j[0].filter(function (s) { return s && s[0]; }).map(function (s) { return s[0]; }).join('');
+        if (!res) throw new Error('Empty result');
+        return res;
       });
   }
 
   /* ── Result handlers ── */
-  function onSuccess(text) {
-    if (!text || !text.trim()) { onError('Received empty translation. Please try again.'); return; }
-    outputEl.className = LANGS[activeLang].cls;
+  function onDone(text) {
+    if (!text || !text.trim()) { onError('Received empty translation.'); return; }
+    outputEl.className = LANG_CFG[lang].cls;
     outputEl.textContent = text;
-    setStatus('&#10003; Translation complete' + (activeTone !== 'neutral' ? ' &nbsp;&middot;&nbsp; Tone: ' + activeTone : ''), 'success');
-    resetBtn();
-    isRunning = false;
+    var note = tone !== 'neutral' ? '  ·  tone: ' + tone : '';
+    setStatus('✓ Translation complete' + note, 'success');
+    resetBtn(); running = false;
   }
 
   function onError(msg) {
-    showPlaceholder();
-    setStatus('&#10005; ' + msg, 'error');
-    resetBtn();
-    isRunning = false;
-    stepsEl.style.display = 'none';
+    resetOutput();
+    setStatus('✕ ' + (msg || 'Something went wrong.'), 'error');
+    resetBtn(); running = false;
+    stepsEl.className = 'steps';
   }
 
   function resetBtn() {
     translateBtn.disabled = inputEl.value.trim() === '';
-    translateBtn.innerHTML = '&#10022; Translate';
+    translateBtn.innerHTML = '✦ Translate';
   }
 
-  /* ── Step indicators ── */
-  function showSteps() {
-    stepsEl.style.display = 'flex';
-    ['step-tone','step-translate','step-done'].forEach(function(id){
+  /* ── Step indicator ── */
+  function setStep(active) {
+    var all = ['s1', 's2', 's3'];
+    var ai  = all.indexOf(active);
+    all.forEach(function (id, i) {
       var el = document.getElementById(id);
-      el.classList.remove('active','done');
-    });
-  }
-
-  function setStep(name) {
-    var map = { tone: 'step-tone', translate: 'step-translate', done: 'step-done' };
-    var order = ['step-tone','step-translate','step-done'];
-    var target = map[name];
-    var reached = false;
-    order.forEach(function(id) {
-      var el = document.getElementById(id);
-      if (id === target) { el.classList.add('active'); el.classList.remove('done'); reached = true; }
-      else if (!reached) { el.classList.remove('active'); el.classList.add('done'); }
-      else { el.classList.remove('active','done'); }
+      if (i < ai)       el.className = 'step done';
+      else if (i === ai) el.className = 'step active';
+      else               el.className = 'step';
     });
   }
 
   /* ── Helpers ── */
-  function showPlaceholder() {
-    outputEl.className = 'placeholder-state';
+  function resetOutput() {
+    outputEl.className = '';
     outputEl.textContent = 'Translation will appear here...';
+    outputEl.style.color = 'rgba(255,248,239,.2)';
+    outputEl.style.fontStyle = 'italic';
   }
+  // override resetOutput so placeholder looks right
+  outputEl.textContent = 'Translation will appear here...';
 
   function setStatus(html, type) {
     statusEl.innerHTML = html;
-    statusEl.className = 'status-bar' + (type ? ' ' + type : '');
+    statusEl.className = 'status' + (type ? ' ' + type : '');
   }
+
+
+  /* ══════════════════════════
+     VOICE INPUT (Web Speech API)
+  ══════════════════════════ */
+  var micBtn       = document.getElementById('micBtn');
+  var voiceStatus  = document.getElementById('voiceStatus');
+  var browserWarn  = document.getElementById('browserWarn');
+  var recognition  = null;
+  var isListening  = false;
+
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    /* Browser doesn't support it — disable mic button gracefully */
+    micBtn.classList.add('unsupported');
+    micBtn.title = 'Voice input not supported in this browser. Use Chrome or Edge.';
+    micBtn.addEventListener('click', function () {
+      browserWarn.className = 'browser-warn show';
+      setTimeout(function () { browserWarn.className = 'browser-warn'; }, 4000);
+    });
+  } else {
+    /* Set up recognition */
+    recognition = new SpeechRecognition();
+    recognition.lang        = 'en-US';
+    recognition.continuous  = false;   /* stop after first pause */
+    recognition.interimResults = true; /* show words as they come in */
+
+    recognition.onstart = function () {
+      isListening = true;
+      micBtn.classList.add('listening');
+      micBtn.title   = 'Listening… click to stop';
+      micBtn.textContent = '⏹';
+      voiceStatus.className = 'voice-status show';
+      setStatus('🎤 Listening… speak now', 'loading');
+    };
+
+    recognition.onresult = function (e) {
+      var interim = '';
+      var final   = '';
+      for (var i = e.resultIndex; i < e.results.length; i++) {
+        var t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) final += t;
+        else interim += t;
+      }
+      /* Show interim text in textarea as live preview */
+      if (interim) inputEl.value = interim;
+      /* Final result: set it properly and enable translate */
+      if (final) {
+        var current = inputEl.value.replace(interim, '').trim();
+        inputEl.value = (current ? current + ' ' : '') + final.trim();
+        charCount.textContent = inputEl.value.length + ' / 500';
+        translateBtn.disabled = inputEl.value.trim() === '' || running;
+      }
+    };
+
+    recognition.onerror = function (e) {
+      var msg = {
+        'not-allowed':     '🎤 Microphone access denied. Please allow mic access in your browser.',
+        'no-speech':       '🎤 No speech detected. Try again.',
+        'audio-capture':   '🎤 No microphone found.',
+        'network':         '🎤 Network error during voice recognition.',
+      }[e.error] || ('🎤 Error: ' + e.error);
+      setStatus(msg, 'error');
+      stopListening();
+    };
+
+    recognition.onend = function () {
+      stopListening();
+      if (inputEl.value.trim()) {
+        setStatus('✓ Voice captured — press Translate or keep speaking', 'success');
+        charCount.textContent = inputEl.value.length + ' / 500';
+        translateBtn.disabled = false;
+      } else {
+        setStatus('', '');
+      }
+    };
+
+    micBtn.addEventListener('click', function () {
+      if (isListening) {
+        recognition.stop();
+      } else {
+        /* Clear previous text before new recording? No — append instead */
+        try {
+          recognition.start();
+        } catch (e) {
+          /* already started */
+        }
+      }
+    });
+  }
+
+  function stopListening() {
+    isListening = false;
+    micBtn.classList.remove('listening');
+    micBtn.title       = 'Click to speak';
+    micBtn.textContent = '🎤';
+    voiceStatus.className = 'voice-status';
+  }
+
+
+  /* ══════════════════════════
+     TEXT-TO-SPEECH (Web Speech Synthesis API)
+  ══════════════════════════ */
+  var speakEnBtn  = document.getElementById('speakEnBtn');
+  var speakOutBtn = document.getElementById('speakOutBtn');
+  var ttsWarn     = document.getElementById('ttsWarn');
+  var ttsSupported = 'speechSynthesis' in window;
+
+  /* Voice lang codes mapped to our languages */
+  var TTS_LANG = { kn: 'kn-IN', te: 'te-IN' };
+
+  /* Track which button is currently speaking */
+  var currentSpeakBtn = null;
+
+  function speak(text, langCode, btn) {
+    if (!ttsSupported) {
+      showTtsWarn('Text-to-speech is not supported in this browser.');
+      return;
+    }
+    if (!text || !text.trim()) return;
+
+    /* If already speaking this button, stop it */
+    if (currentSpeakBtn === btn && window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+      return;
+    }
+
+    /* Cancel any other ongoing speech */
+    window.speechSynthesis.cancel();
+    if (currentSpeakBtn && currentSpeakBtn !== btn) setSpeakState(currentSpeakBtn, false);
+
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang = langCode;
+    utter.rate = 0.92;
+    utter.pitch = 1;
+
+    /* Try to find a matching voice for the language */
+    var voices = window.speechSynthesis.getVoices();
+    var match  = voices.find(function(v) { return v.lang === langCode; })
+              || voices.find(function(v) { return v.lang.startsWith(langCode.split('-')[0]); });
+    if (match) utter.voice = match;
+
+    utter.onstart = function () {
+      currentSpeakBtn = btn;
+      setSpeakState(btn, true);
+      ttsWarn.className = 'tts-warn'; /* hide any previous warn */
+    };
+
+    utter.onend = function () {
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+    };
+
+    utter.onerror = function (e) {
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+      /* 'interrupted' fires when we manually cancel — not a real error */
+      if (e.error !== 'interrupted' && e.error !== 'canceled') {
+        var langName = langCode === 'kn-IN' ? 'Kannada' : langCode === 'te-IN' ? 'Telugu' : langCode;
+        showTtsWarn('No ' + langName + ' voice found on this device. Try installing a ' + langName + ' TTS voice in your OS settings.');
+      }
+    };
+
+    window.speechSynthesis.speak(utter);
+  }
+
+  function setSpeakState(btn, active) {
+    if (active) {
+      btn.classList.add('speaking');
+      btn.title = 'Click to stop';
+      btn.textContent = '⏹';
+    } else {
+      btn.classList.remove('speaking');
+      btn.textContent = '🔊';
+      btn.title = btn === speakEnBtn ? 'Listen to English text' : 'Listen to translation';
+    }
+  }
+
+  function showTtsWarn(msg) {
+    ttsWarn.textContent = '⚠️ ' + msg;
+    ttsWarn.className = 'tts-warn show';
+  }
+
+  /* Voices load async on some browsers — preload them */
+  if (ttsSupported && window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = function () { window.speechSynthesis.getVoices(); };
+  }
+
+  /* English speak button */
+  speakEnBtn.addEventListener('click', function () {
+    var text = inputEl.value.trim();
+    if (!text) return;
+    speak(text, 'en-US', speakEnBtn);
+  });
+
+  /* Translation speak button */
+  speakOutBtn.addEventListener('click', function () {
+    var text = outputEl.textContent.trim();
+    if (!text || text === 'Translation will appear here...') return;
+    var ttsLang = TTS_LANG[lang] || 'kn-IN';
+    speak(text, ttsLang, speakOutBtn);
+  });
+
+  /* Enable/disable speak buttons based on content */
+  function updateSpeakBtns() {
+    var hasInput = inputEl.value.trim() !== '';
+    var hasOutput = outputEl.textContent.trim() !== '' && outputEl.textContent !== 'Translation will appear here...';
+    speakEnBtn.classList.toggle('no-text', !hasInput);
+    speakEnBtn.disabled = !hasInput;
+    speakOutBtn.classList.toggle('no-text', !hasOutput);
+    speakOutBtn.disabled = !hasOutput;
+  }
+
+  /* Hook into existing input listener and onDone to update speak button states */
+  var _origInput = inputEl.oninput;
+  inputEl.addEventListener('input', updateSpeakBtns);
+
+  /* Patch onDone to enable output speak btn after translation */
+  var _origOnDone = onDone;
+  onDone = function(text) {
+    _origOnDone(text);
+    setTimeout(updateSpeakBtns, 50);
+  };
+
+  /* Also update when clear is clicked */
+  clearBtn.addEventListener('click', function () {
+    window.speechSynthesis.cancel();
+    if (currentSpeakBtn) { setSpeakState(currentSpeakBtn, false); currentSpeakBtn = null; }
+    updateSpeakBtns();
+  });
+
+  /* Initial state */
+  updateSpeakBtns();
+
 
 })();
 </script>
