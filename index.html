@@ -698,71 +698,133 @@
 
 
   /* ══════════════════════════
-     TEXT-TO-SPEECH (Web Speech Synthesis API)
+     TEXT-TO-SPEECH
+     English  → browser Web Speech API (reliable everywhere)
+     Kannada/Telugu → Google Translate TTS endpoint (no key needed,
+                      same as translation API we already use)
   ══════════════════════════ */
   var speakEnBtn  = document.getElementById('speakEnBtn');
   var speakOutBtn = document.getElementById('speakOutBtn');
   var ttsWarn     = document.getElementById('ttsWarn');
-  var ttsSupported = 'speechSynthesis' in window;
 
-  /* Voice lang codes mapped to our languages */
-  var TTS_LANG = { kn: 'kn-IN', te: 'te-IN' };
+  /* Google Translate TTS lang codes */
+  var GTTS_LANG = { kn: 'kn', te: 'te' };
 
-  /* Track which button is currently speaking */
+  /* currently playing Audio object (for translated TTS) */
+  var currentAudio    = null;
   var currentSpeakBtn = null;
 
-  function speak(text, langCode, btn) {
-    if (!ttsSupported) {
-      showTtsWarn('Text-to-speech is not supported in this browser.');
-      return;
-    }
-    if (!text || !text.trim()) return;
+  /* ── English TTS: use browser speechSynthesis (en-US always works) ── */
+  function speakEnglish(text, btn) {
+    if (!text) return;
 
-    /* If already speaking this button, stop it */
-    if (currentSpeakBtn === btn && window.speechSynthesis.speaking) {
+    /* Toggle off if already speaking */
+    if (currentSpeakBtn === btn && window.speechSynthesis && window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
       setSpeakState(btn, false);
       currentSpeakBtn = null;
       return;
     }
 
-    /* Cancel any other ongoing speech */
-    window.speechSynthesis.cancel();
-    if (currentSpeakBtn && currentSpeakBtn !== btn) setSpeakState(currentSpeakBtn, false);
+    /* Cancel any Indian-lang audio that might be playing */
+    stopCurrentAudio();
 
+    if (!window.speechSynthesis) {
+      showTtsWarn('Text-to-speech is not supported in this browser.');
+      return;
+    }
+
+    window.speechSynthesis.cancel();
     var utter = new SpeechSynthesisUtterance(text);
-    utter.lang = langCode;
-    utter.rate = 0.92;
+    utter.lang  = 'en-US';
+    utter.rate  = 0.92;
     utter.pitch = 1;
 
-    /* Try to find a matching voice for the language */
-    var voices = window.speechSynthesis.getVoices();
-    var match  = voices.find(function(v) { return v.lang === langCode; })
-              || voices.find(function(v) { return v.lang.startsWith(langCode.split('-')[0]); });
-    if (match) utter.voice = match;
-
-    utter.onstart = function () {
-      currentSpeakBtn = btn;
-      setSpeakState(btn, true);
-      ttsWarn.className = 'tts-warn'; /* hide any previous warn */
-    };
-
-    utter.onend = function () {
-      setSpeakState(btn, false);
-      currentSpeakBtn = null;
-    };
-
-    utter.onerror = function (e) {
-      setSpeakState(btn, false);
-      currentSpeakBtn = null;
-      /* 'interrupted' fires when we manually cancel — not a real error */
-      if (e.error !== 'interrupted' && e.error !== 'canceled') {
-        var langName = langCode === 'kn-IN' ? 'Kannada' : langCode === 'te-IN' ? 'Telugu' : langCode;
-        showTtsWarn('No ' + langName + ' voice found on this device. Try installing a ' + langName + ' TTS voice in your OS settings.');
-      }
-    };
+    utter.onstart = function () { currentSpeakBtn = btn; setSpeakState(btn, true); };
+    utter.onend   = function () { setSpeakState(btn, false); currentSpeakBtn = null; };
+    utter.onerror = function () { setSpeakState(btn, false); currentSpeakBtn = null; };
 
     window.speechSynthesis.speak(utter);
+  }
+
+  /* ── Indian-language TTS: Google Translate audio endpoint ── */
+  function speakIndian(text, langCode, btn) {
+    if (!text || text === 'Translation will appear here...') return;
+
+    /* Toggle off */
+    if (currentSpeakBtn === btn && currentAudio && !currentAudio.paused) {
+      stopCurrentAudio();
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+      return;
+    }
+
+    /* Cancel any english speech */
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    stopCurrentAudio();
+
+    /* Split into chunks ≤200 chars (Google TTS URL limit) */
+    var chunks = splitText(text, 200);
+    setSpeakState(btn, true);
+    currentSpeakBtn = btn;
+    ttsWarn.className = 'tts-warn';
+
+    playChunks(chunks, langCode, btn, 0);
+  }
+
+  function playChunks(chunks, langCode, btn, idx) {
+    if (idx >= chunks.length) {
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+      return;
+    }
+    /* If user stopped mid-way */
+    if (currentSpeakBtn !== btn) return;
+
+    var chunk = chunks[idx];
+    var url = 'https://translate.googleapis.com/translate_tts?ie=UTF-8&client=tw-ob'
+            + '&tl=' + langCode
+            + '&q='  + encodeURIComponent(chunk);
+
+    var audio = new Audio(url);
+    currentAudio = audio;
+
+    audio.onended = function () {
+      playChunks(chunks, langCode, btn, idx + 1);
+    };
+    audio.onerror = function () {
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+      currentAudio    = null;
+      showTtsWarn('Could not load audio. Check your internet connection.');
+    };
+    audio.play().catch(function(e) {
+      setSpeakState(btn, false);
+      currentSpeakBtn = null;
+      currentAudio    = null;
+      showTtsWarn('Audio playback blocked. Click the 🔊 button again to try.');
+    });
+  }
+
+  function stopCurrentAudio() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.src = '';
+      currentAudio = null;
+    }
+  }
+
+  /* Split text into chunks without breaking words */
+  function splitText(text, maxLen) {
+    var chunks = [];
+    while (text.length > maxLen) {
+      var idx = text.lastIndexOf(' ', maxLen);
+      if (idx === -1) idx = maxLen;
+      chunks.push(text.slice(0, idx).trim());
+      text = text.slice(idx).trim();
+    }
+    if (text) chunks.push(text);
+    return chunks;
   }
 
   function setSpeakState(btn, active) {
@@ -782,38 +844,28 @@
     ttsWarn.className = 'tts-warn show';
   }
 
-  /* Voices load async on some browsers — preload them */
-  if (ttsSupported && window.speechSynthesis.onvoiceschanged !== undefined) {
-    window.speechSynthesis.onvoiceschanged = function () { window.speechSynthesis.getVoices(); };
-  }
-
-  /* English speak button */
+  /* ── Button listeners ── */
   speakEnBtn.addEventListener('click', function () {
-    var text = inputEl.value.trim();
-    if (!text) return;
-    speak(text, 'en-US', speakEnBtn);
+    speakEnglish(inputEl.value.trim(), speakEnBtn);
   });
 
-  /* Translation speak button */
   speakOutBtn.addEventListener('click', function () {
     var text = outputEl.textContent.trim();
     if (!text || text === 'Translation will appear here...') return;
-    var ttsLang = TTS_LANG[lang] || 'kn-IN';
-    speak(text, ttsLang, speakOutBtn);
+    speakIndian(text, GTTS_LANG[lang] || 'kn', speakOutBtn);
   });
 
-  /* Enable/disable speak buttons based on content */
+  /* ── Enable/disable speak buttons based on content ── */
   function updateSpeakBtns() {
-    var hasInput = inputEl.value.trim() !== '';
-    var hasOutput = outputEl.textContent.trim() !== '' && outputEl.textContent !== 'Translation will appear here...';
+    var hasInput  = inputEl.value.trim() !== '';
+    var hasOutput = outputEl.textContent.trim() !== ''
+                 && outputEl.textContent !== 'Translation will appear here...';
     speakEnBtn.classList.toggle('no-text', !hasInput);
     speakEnBtn.disabled = !hasInput;
     speakOutBtn.classList.toggle('no-text', !hasOutput);
     speakOutBtn.disabled = !hasOutput;
   }
 
-  /* Hook into existing input listener and onDone to update speak button states */
-  var _origInput = inputEl.oninput;
   inputEl.addEventListener('input', updateSpeakBtns);
 
   /* Patch onDone to enable output speak btn after translation */
@@ -823,14 +875,15 @@
     setTimeout(updateSpeakBtns, 50);
   };
 
-  /* Also update when clear is clicked */
+  /* Stop audio on clear */
   clearBtn.addEventListener('click', function () {
-    window.speechSynthesis.cancel();
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    stopCurrentAudio();
     if (currentSpeakBtn) { setSpeakState(currentSpeakBtn, false); currentSpeakBtn = null; }
+    ttsWarn.className = 'tts-warn';
     updateSpeakBtns();
   });
 
-  /* Initial state */
   updateSpeakBtns();
 
 
